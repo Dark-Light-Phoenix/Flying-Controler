@@ -1,0 +1,4 @@
+../Core/Src/Functions.c:10:6:initKalmanFilterAccel	16	static
+../Core/Src/Functions.c:16:6:initKalmanFilterGyro	16	static
+../Core/Src/Functions.c:22:6:KalmanFilterUpdateAccel	40	static
+../Core/Src/Functions.c:32:6:KalmanFilterUpdateGyro	40	static
