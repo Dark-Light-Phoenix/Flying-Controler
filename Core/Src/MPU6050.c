@@ -2,7 +2,7 @@
 #include "Functions.h"
 #include "stm32f4xx_hal.h"
 
-I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c1;
 
 double Kalman_accel_x[100] = {0}; // Creating massive for data of Kalman filter for accelerometer variables
 double Kalman_accel_y[100] = {0};

@@ -3,7 +3,7 @@
 #include "math.h"
 #include "stm32f4xx_hal.h"
 
-I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c2;
 
 double pressure[100] = {0}; // Creating massive for pressure data
 double Height[100] = {0}; // Creating massive for height data that converted from pressure

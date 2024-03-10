@@ -21,31 +21,31 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         0000005c  20000000  08004618  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00002de8  20000060  08004674  00020060  2**3
+  9 .bss          00002df0  20000060  08004674  00020060  2**3
                   ALLOC
- 10 ._user_heap_stack 00000600  20002e48  08004674  00022e48  2**0
+ 10 ._user_heap_stack 00000600  20002e50  08004674  00022e50  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002005c  2**0
                   CONTENTS, READONLY
  12 .comment      00000043  00000000  00000000  0002008c  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00006a78  00000000  00000000  000200cf  2**0
+ 13 .debug_info   0000786b  00000000  00000000  000200cf  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000012f0  00000000  00000000  00026b47  2**0
+ 14 .debug_abbrev 0000171e  00000000  00000000  0002793a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000700  00000000  00000000  00027e38  2**3
+ 15 .debug_aranges 00000748  00000000  00000000  00029058  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000561  00000000  00000000  00028538  2**0
+ 16 .debug_rnglists 00000588  00000000  00000000  000297a0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000146ee  00000000  00000000  00028a99  2**0
+ 17 .debug_macro  000159ca  00000000  00000000  00029d28  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00008fbe  00000000  00000000  0003d187  2**0
+ 18 .debug_line   0000a6d1  00000000  00000000  0003f6f2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00084d44  00000000  00000000  00046145  2**0
+ 19 .debug_str    00084db8  00000000  00000000  00049dc3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  000020ac  00000000  00000000  000cae8c  2**2
+ 20 .debug_frame  000020dc  00000000  00000000  000ceb7c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006b  00000000  00000000  000ccf38  2**0
+ 21 .debug_line_str 0000006b  00000000  00000000  000d0c58  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1158,843 +1158,850 @@ Disassembly of section .text:
 08000e48 <__aeabi_idiv0>:
  8000e48:	4770      	bx	lr
  8000e4a:	bf00      	nop
+ 8000e4c:	0000      	movs	r0, r0
+	...
 
-08000e4c <initKalmanFilterAccel>:
-    float P;
-} KalmanFilterGyro;
+08000e50 <BME280_ReadPressure>:
+double Height[100] = {0}; // Creating massive for height data that converted from pressure
 
+float Pressure;
 
-void initKalmanFilterAccel(KalmanFilterAccel *filter) // Function to initialize Kalman filter for accelerometer
+void BME280_ReadPressure (void) // Function for reading data from BMP280
 {
- 8000e4c:	b480      	push	{r7}
- 8000e4e:	b083      	sub	sp, #12
- 8000e50:	af00      	add	r7, sp, #0
- 8000e52:	6078      	str	r0, [r7, #4]
-    filter->x = 0;
- 8000e54:	687b      	ldr	r3, [r7, #4]
- 8000e56:	f04f 0200 	mov.w	r2, #0
- 8000e5a:	601a      	str	r2, [r3, #0]
-    filter->P = 1;
- 8000e5c:	687b      	ldr	r3, [r7, #4]
- 8000e5e:	f04f 527e 	mov.w	r2, #1065353216	; 0x3f800000
- 8000e62:	605a      	str	r2, [r3, #4]
-}
- 8000e64:	bf00      	nop
- 8000e66:	370c      	adds	r7, #12
- 8000e68:	46bd      	mov	sp, r7
- 8000e6a:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000e6e:	4770      	bx	lr
-
-08000e70 <initKalmanFilterGyro>:
-
-void initKalmanFilterGyro(KalmanFilterGyro *filter) // Function to initialize Kalman filter for gyroscope
-{
- 8000e70:	b480      	push	{r7}
- 8000e72:	b083      	sub	sp, #12
- 8000e74:	af00      	add	r7, sp, #0
- 8000e76:	6078      	str	r0, [r7, #4]
-    filter->x = 0;
- 8000e78:	687b      	ldr	r3, [r7, #4]
- 8000e7a:	f04f 0200 	mov.w	r2, #0
- 8000e7e:	601a      	str	r2, [r3, #0]
-    filter->P = 1;
- 8000e80:	687b      	ldr	r3, [r7, #4]
- 8000e82:	f04f 527e 	mov.w	r2, #1065353216	; 0x3f800000
- 8000e86:	605a      	str	r2, [r3, #4]
-}
- 8000e88:	bf00      	nop
- 8000e8a:	370c      	adds	r7, #12
- 8000e8c:	46bd      	mov	sp, r7
- 8000e8e:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000e92:	4770      	bx	lr
-
-08000e94 <KalmanFilterUpdateAccel>:
-
-void KalmanFilterUpdateAccel(KalmanFilterAccel *filter, float z, float R, float H) // Function to update Kalman filter for accelerometer
-{
- 8000e94:	b480      	push	{r7}
- 8000e96:	b089      	sub	sp, #36	; 0x24
- 8000e98:	af00      	add	r7, sp, #0
- 8000e9a:	60f8      	str	r0, [r7, #12]
- 8000e9c:	ed87 0a02 	vstr	s0, [r7, #8]
- 8000ea0:	edc7 0a01 	vstr	s1, [r7, #4]
- 8000ea4:	ed87 1a00 	vstr	s2, [r7]
-    float x_pred = filter->x;
- 8000ea8:	68fb      	ldr	r3, [r7, #12]
- 8000eaa:	681b      	ldr	r3, [r3, #0]
- 8000eac:	61fb      	str	r3, [r7, #28]
-    float P_pred = filter->P;
- 8000eae:	68fb      	ldr	r3, [r7, #12]
- 8000eb0:	685b      	ldr	r3, [r3, #4]
- 8000eb2:	61bb      	str	r3, [r7, #24]
-
-    float K = P_pred * H / (H * P_pred * H + R);
- 8000eb4:	ed97 7a06 	vldr	s14, [r7, #24]
- 8000eb8:	edd7 7a00 	vldr	s15, [r7]
- 8000ebc:	ee67 6a27 	vmul.f32	s13, s14, s15
- 8000ec0:	ed97 7a00 	vldr	s14, [r7]
- 8000ec4:	edd7 7a06 	vldr	s15, [r7, #24]
- 8000ec8:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000ecc:	edd7 7a00 	vldr	s15, [r7]
- 8000ed0:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000ed4:	edd7 7a01 	vldr	s15, [r7, #4]
- 8000ed8:	ee37 7a27 	vadd.f32	s14, s14, s15
- 8000edc:	eec6 7a87 	vdiv.f32	s15, s13, s14
- 8000ee0:	edc7 7a05 	vstr	s15, [r7, #20]
-    filter->x = x_pred + K * (z - H * x_pred);
- 8000ee4:	ed97 7a00 	vldr	s14, [r7]
- 8000ee8:	edd7 7a07 	vldr	s15, [r7, #28]
- 8000eec:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000ef0:	ed97 7a02 	vldr	s14, [r7, #8]
- 8000ef4:	ee37 7a67 	vsub.f32	s14, s14, s15
- 8000ef8:	edd7 7a05 	vldr	s15, [r7, #20]
- 8000efc:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000f00:	edd7 7a07 	vldr	s15, [r7, #28]
- 8000f04:	ee77 7a27 	vadd.f32	s15, s14, s15
- 8000f08:	68fb      	ldr	r3, [r7, #12]
- 8000f0a:	edc3 7a00 	vstr	s15, [r3]
-    filter->P = (1 - K * H) * P_pred;
- 8000f0e:	ed97 7a05 	vldr	s14, [r7, #20]
- 8000f12:	edd7 7a00 	vldr	s15, [r7]
- 8000f16:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000f1a:	eeb7 7a00 	vmov.f32	s14, #112	; 0x3f800000  1.0
- 8000f1e:	ee37 7a67 	vsub.f32	s14, s14, s15
- 8000f22:	edd7 7a06 	vldr	s15, [r7, #24]
- 8000f26:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000f2a:	68fb      	ldr	r3, [r7, #12]
- 8000f2c:	edc3 7a01 	vstr	s15, [r3, #4]
-}
- 8000f30:	bf00      	nop
- 8000f32:	3724      	adds	r7, #36	; 0x24
- 8000f34:	46bd      	mov	sp, r7
- 8000f36:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000f3a:	4770      	bx	lr
-
-08000f3c <KalmanFilterUpdateGyro>:
-
-void KalmanFilterUpdateGyro(KalmanFilterGyro *filter, float z, float R, float H) // Function to update Kalman filter for gyroscope
-{
- 8000f3c:	b480      	push	{r7}
- 8000f3e:	b089      	sub	sp, #36	; 0x24
- 8000f40:	af00      	add	r7, sp, #0
- 8000f42:	60f8      	str	r0, [r7, #12]
- 8000f44:	ed87 0a02 	vstr	s0, [r7, #8]
- 8000f48:	edc7 0a01 	vstr	s1, [r7, #4]
- 8000f4c:	ed87 1a00 	vstr	s2, [r7]
-    float x_pred = filter->x;
- 8000f50:	68fb      	ldr	r3, [r7, #12]
- 8000f52:	681b      	ldr	r3, [r3, #0]
- 8000f54:	61fb      	str	r3, [r7, #28]
-    float P_pred = filter->P;
- 8000f56:	68fb      	ldr	r3, [r7, #12]
- 8000f58:	685b      	ldr	r3, [r3, #4]
- 8000f5a:	61bb      	str	r3, [r7, #24]
-
-    float K = P_pred * H / (H * P_pred * H + R);
- 8000f5c:	ed97 7a06 	vldr	s14, [r7, #24]
- 8000f60:	edd7 7a00 	vldr	s15, [r7]
- 8000f64:	ee67 6a27 	vmul.f32	s13, s14, s15
- 8000f68:	ed97 7a00 	vldr	s14, [r7]
- 8000f6c:	edd7 7a06 	vldr	s15, [r7, #24]
- 8000f70:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000f74:	edd7 7a00 	vldr	s15, [r7]
- 8000f78:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000f7c:	edd7 7a01 	vldr	s15, [r7, #4]
- 8000f80:	ee37 7a27 	vadd.f32	s14, s14, s15
- 8000f84:	eec6 7a87 	vdiv.f32	s15, s13, s14
- 8000f88:	edc7 7a05 	vstr	s15, [r7, #20]
-    filter->x = x_pred + K * (z - H * x_pred);
- 8000f8c:	ed97 7a00 	vldr	s14, [r7]
- 8000f90:	edd7 7a07 	vldr	s15, [r7, #28]
- 8000f94:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000f98:	ed97 7a02 	vldr	s14, [r7, #8]
- 8000f9c:	ee37 7a67 	vsub.f32	s14, s14, s15
- 8000fa0:	edd7 7a05 	vldr	s15, [r7, #20]
- 8000fa4:	ee27 7a27 	vmul.f32	s14, s14, s15
- 8000fa8:	edd7 7a07 	vldr	s15, [r7, #28]
- 8000fac:	ee77 7a27 	vadd.f32	s15, s14, s15
- 8000fb0:	68fb      	ldr	r3, [r7, #12]
- 8000fb2:	edc3 7a00 	vstr	s15, [r3]
-    filter->P = (1 - K * H) * P_pred;
- 8000fb6:	ed97 7a05 	vldr	s14, [r7, #20]
- 8000fba:	edd7 7a00 	vldr	s15, [r7]
- 8000fbe:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000fc2:	eeb7 7a00 	vmov.f32	s14, #112	; 0x3f800000  1.0
- 8000fc6:	ee37 7a67 	vsub.f32	s14, s14, s15
- 8000fca:	edd7 7a06 	vldr	s15, [r7, #24]
- 8000fce:	ee67 7a27 	vmul.f32	s15, s14, s15
- 8000fd2:	68fb      	ldr	r3, [r7, #12]
- 8000fd4:	edc3 7a01 	vstr	s15, [r3, #4]
-}
- 8000fd8:	bf00      	nop
- 8000fda:	3724      	adds	r7, #36	; 0x24
- 8000fdc:	46bd      	mov	sp, r7
- 8000fde:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000fe2:	4770      	bx	lr
-
-08000fe4 <MPU6050_Init>:
-
-void MPU6050_Init(void)
-{
- 8000fe4:	b580      	push	{r7, lr}
- 8000fe6:	b086      	sub	sp, #24
- 8000fe8:	af04      	add	r7, sp, #16
-    uint8_t check, Data;
-    HAL_Delay(1000);
- 8000fea:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8000fee:	f000 fd45 	bl	8001a7c <HAL_Delay>
-    HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
- 8000ff2:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 8000ff6:	9302      	str	r3, [sp, #8]
- 8000ff8:	2301      	movs	r3, #1
- 8000ffa:	9301      	str	r3, [sp, #4]
- 8000ffc:	1dfb      	adds	r3, r7, #7
- 8000ffe:	9300      	str	r3, [sp, #0]
- 8001000:	2301      	movs	r3, #1
- 8001002:	2275      	movs	r2, #117	; 0x75
- 8001004:	21d0      	movs	r1, #208	; 0xd0
- 8001006:	4814      	ldr	r0, [pc, #80]	; (8001058 <MPU6050_Init+0x74>)
- 8001008:	f001 fd34 	bl	8002a74 <HAL_I2C_Mem_Read>
-
-    if (check == 0x68)
- 800100c:	79fb      	ldrb	r3, [r7, #7]
- 800100e:	2b68      	cmp	r3, #104	; 0x68
- 8001010:	d11d      	bne.n	800104e <MPU6050_Init+0x6a>
-    {
-        Data = 0;
- 8001012:	2300      	movs	r3, #0
- 8001014:	71bb      	strb	r3, [r7, #6]
-        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &Data, 1, 1000);
- 8001016:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 800101a:	9302      	str	r3, [sp, #8]
- 800101c:	2301      	movs	r3, #1
- 800101e:	9301      	str	r3, [sp, #4]
- 8001020:	1dbb      	adds	r3, r7, #6
- 8001022:	9300      	str	r3, [sp, #0]
- 8001024:	2301      	movs	r3, #1
- 8001026:	226b      	movs	r2, #107	; 0x6b
- 8001028:	21d0      	movs	r1, #208	; 0xd0
- 800102a:	480b      	ldr	r0, [pc, #44]	; (8001058 <MPU6050_Init+0x74>)
- 800102c:	f001 fc28 	bl	8002880 <HAL_I2C_Mem_Write>
-        Data = 0x07;
- 8001030:	2307      	movs	r3, #7
- 8001032:	71bb      	strb	r3, [r7, #6]
-        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
- 8001034:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 8001038:	9302      	str	r3, [sp, #8]
- 800103a:	2301      	movs	r3, #1
- 800103c:	9301      	str	r3, [sp, #4]
- 800103e:	1dbb      	adds	r3, r7, #6
- 8001040:	9300      	str	r3, [sp, #0]
- 8001042:	2301      	movs	r3, #1
- 8001044:	2219      	movs	r2, #25
- 8001046:	21d0      	movs	r1, #208	; 0xd0
- 8001048:	4803      	ldr	r0, [pc, #12]	; (8001058 <MPU6050_Init+0x74>)
- 800104a:	f001 fc19 	bl	8002880 <HAL_I2C_Mem_Write>
-    }
-}
- 800104e:	bf00      	nop
- 8001050:	3708      	adds	r7, #8
- 8001052:	46bd      	mov	sp, r7
- 8001054:	bd80      	pop	{r7, pc}
- 8001056:	bf00      	nop
- 8001058:	2000007c 	.word	0x2000007c
-
-0800105c <MPU6050_Read_Accel>:
-
-void MPU6050_Read_Accel(void)
-{
- 800105c:	b580      	push	{r7, lr}
- 800105e:	b08a      	sub	sp, #40	; 0x28
- 8001060:	af04      	add	r7, sp, #16
-    KalmanFilterAccel accelFilter;
-    initKalmanFilterAccel(&accelFilter);
- 8001062:	f107 030c 	add.w	r3, r7, #12
- 8001066:	4618      	mov	r0, r3
- 8001068:	f7ff fef0 	bl	8000e4c <initKalmanFilterAccel>
-
-    for (int i = 0; i < 100; i++)
- 800106c:	2300      	movs	r3, #0
- 800106e:	617b      	str	r3, [r7, #20]
- 8001070:	e0c0      	b.n	80011f4 <MPU6050_Read_Accel+0x198>
-    {
-        uint8_t Rec_Data[6];
-        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
- 8001072:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 8001076:	9302      	str	r3, [sp, #8]
- 8001078:	2306      	movs	r3, #6
- 800107a:	9301      	str	r3, [sp, #4]
- 800107c:	1d3b      	adds	r3, r7, #4
- 800107e:	9300      	str	r3, [sp, #0]
- 8001080:	2301      	movs	r3, #1
- 8001082:	223b      	movs	r2, #59	; 0x3b
- 8001084:	21d0      	movs	r1, #208	; 0xd0
- 8001086:	4860      	ldr	r0, [pc, #384]	; (8001208 <MPU6050_Read_Accel+0x1ac>)
- 8001088:	f001 fcf4 	bl	8002a74 <HAL_I2C_Mem_Read>
-
-        Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
- 800108c:	793b      	ldrb	r3, [r7, #4]
- 800108e:	021b      	lsls	r3, r3, #8
- 8001090:	b21a      	sxth	r2, r3
- 8001092:	797b      	ldrb	r3, [r7, #5]
- 8001094:	b21b      	sxth	r3, r3
- 8001096:	4313      	orrs	r3, r2
- 8001098:	b21a      	sxth	r2, r3
- 800109a:	4b5c      	ldr	r3, [pc, #368]	; (800120c <MPU6050_Read_Accel+0x1b0>)
- 800109c:	801a      	strh	r2, [r3, #0]
-        Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
- 800109e:	79bb      	ldrb	r3, [r7, #6]
- 80010a0:	021b      	lsls	r3, r3, #8
- 80010a2:	b21a      	sxth	r2, r3
- 80010a4:	79fb      	ldrb	r3, [r7, #7]
- 80010a6:	b21b      	sxth	r3, r3
- 80010a8:	4313      	orrs	r3, r2
- 80010aa:	b21a      	sxth	r2, r3
- 80010ac:	4b58      	ldr	r3, [pc, #352]	; (8001210 <MPU6050_Read_Accel+0x1b4>)
- 80010ae:	801a      	strh	r2, [r3, #0]
-        Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
- 80010b0:	7a3b      	ldrb	r3, [r7, #8]
- 80010b2:	021b      	lsls	r3, r3, #8
- 80010b4:	b21a      	sxth	r2, r3
- 80010b6:	7a7b      	ldrb	r3, [r7, #9]
- 80010b8:	b21b      	sxth	r3, r3
- 80010ba:	4313      	orrs	r3, r2
- 80010bc:	b21a      	sxth	r2, r3
- 80010be:	4b55      	ldr	r3, [pc, #340]	; (8001214 <MPU6050_Read_Accel+0x1b8>)
- 80010c0:	801a      	strh	r2, [r3, #0]
-        Ax = Accel_X_RAW / 16384.0;
- 80010c2:	4b52      	ldr	r3, [pc, #328]	; (800120c <MPU6050_Read_Accel+0x1b0>)
- 80010c4:	f9b3 3000 	ldrsh.w	r3, [r3]
- 80010c8:	4618      	mov	r0, r3
- 80010ca:	f7ff f9d7 	bl	800047c <__aeabi_i2d>
- 80010ce:	f04f 0200 	mov.w	r2, #0
- 80010d2:	4b51      	ldr	r3, [pc, #324]	; (8001218 <MPU6050_Read_Accel+0x1bc>)
- 80010d4:	f7ff fb66 	bl	80007a4 <__aeabi_ddiv>
- 80010d8:	4602      	mov	r2, r0
- 80010da:	460b      	mov	r3, r1
- 80010dc:	4610      	mov	r0, r2
- 80010de:	4619      	mov	r1, r3
- 80010e0:	f7ff fce6 	bl	8000ab0 <__aeabi_d2f>
- 80010e4:	4603      	mov	r3, r0
- 80010e6:	4a4d      	ldr	r2, [pc, #308]	; (800121c <MPU6050_Read_Accel+0x1c0>)
- 80010e8:	6013      	str	r3, [r2, #0]
-        Ay = Accel_Y_RAW / 16384.0;
- 80010ea:	4b49      	ldr	r3, [pc, #292]	; (8001210 <MPU6050_Read_Accel+0x1b4>)
- 80010ec:	f9b3 3000 	ldrsh.w	r3, [r3]
- 80010f0:	4618      	mov	r0, r3
- 80010f2:	f7ff f9c3 	bl	800047c <__aeabi_i2d>
- 80010f6:	f04f 0200 	mov.w	r2, #0
- 80010fa:	4b47      	ldr	r3, [pc, #284]	; (8001218 <MPU6050_Read_Accel+0x1bc>)
- 80010fc:	f7ff fb52 	bl	80007a4 <__aeabi_ddiv>
- 8001100:	4602      	mov	r2, r0
- 8001102:	460b      	mov	r3, r1
- 8001104:	4610      	mov	r0, r2
- 8001106:	4619      	mov	r1, r3
- 8001108:	f7ff fcd2 	bl	8000ab0 <__aeabi_d2f>
- 800110c:	4603      	mov	r3, r0
- 800110e:	4a44      	ldr	r2, [pc, #272]	; (8001220 <MPU6050_Read_Accel+0x1c4>)
- 8001110:	6013      	str	r3, [r2, #0]
-        Az = Accel_Z_RAW / 16384.0;
- 8001112:	4b40      	ldr	r3, [pc, #256]	; (8001214 <MPU6050_Read_Accel+0x1b8>)
- 8001114:	f9b3 3000 	ldrsh.w	r3, [r3]
- 8001118:	4618      	mov	r0, r3
- 800111a:	f7ff f9af 	bl	800047c <__aeabi_i2d>
- 800111e:	f04f 0200 	mov.w	r2, #0
- 8001122:	4b3d      	ldr	r3, [pc, #244]	; (8001218 <MPU6050_Read_Accel+0x1bc>)
- 8001124:	f7ff fb3e 	bl	80007a4 <__aeabi_ddiv>
- 8001128:	4602      	mov	r2, r0
- 800112a:	460b      	mov	r3, r1
- 800112c:	4610      	mov	r0, r2
- 800112e:	4619      	mov	r1, r3
- 8001130:	f7ff fcbe 	bl	8000ab0 <__aeabi_d2f>
- 8001134:	4603      	mov	r3, r0
- 8001136:	4a3b      	ldr	r2, [pc, #236]	; (8001224 <MPU6050_Read_Accel+0x1c8>)
- 8001138:	6013      	str	r3, [r2, #0]
-
-        arr_accel_x[i] = Ax;
- 800113a:	4b38      	ldr	r3, [pc, #224]	; (800121c <MPU6050_Read_Accel+0x1c0>)
- 800113c:	681b      	ldr	r3, [r3, #0]
- 800113e:	4618      	mov	r0, r3
- 8001140:	f7ff f9ae 	bl	80004a0 <__aeabi_f2d>
- 8001144:	4602      	mov	r2, r0
- 8001146:	460b      	mov	r3, r1
- 8001148:	4837      	ldr	r0, [pc, #220]	; (8001228 <MPU6050_Read_Accel+0x1cc>)
- 800114a:	6979      	ldr	r1, [r7, #20]
- 800114c:	00c9      	lsls	r1, r1, #3
- 800114e:	4401      	add	r1, r0
- 8001150:	e9c1 2300 	strd	r2, r3, [r1]
-        arr_accel_y[i] = Ay;
- 8001154:	4b32      	ldr	r3, [pc, #200]	; (8001220 <MPU6050_Read_Accel+0x1c4>)
- 8001156:	681b      	ldr	r3, [r3, #0]
- 8001158:	4618      	mov	r0, r3
- 800115a:	f7ff f9a1 	bl	80004a0 <__aeabi_f2d>
- 800115e:	4602      	mov	r2, r0
- 8001160:	460b      	mov	r3, r1
- 8001162:	4832      	ldr	r0, [pc, #200]	; (800122c <MPU6050_Read_Accel+0x1d0>)
- 8001164:	6979      	ldr	r1, [r7, #20]
- 8001166:	00c9      	lsls	r1, r1, #3
- 8001168:	4401      	add	r1, r0
- 800116a:	e9c1 2300 	strd	r2, r3, [r1]
-        arr_accel_z[i] = Az;
- 800116e:	4b2d      	ldr	r3, [pc, #180]	; (8001224 <MPU6050_Read_Accel+0x1c8>)
- 8001170:	681b      	ldr	r3, [r3, #0]
- 8001172:	4618      	mov	r0, r3
- 8001174:	f7ff f994 	bl	80004a0 <__aeabi_f2d>
- 8001178:	4602      	mov	r2, r0
- 800117a:	460b      	mov	r3, r1
- 800117c:	482c      	ldr	r0, [pc, #176]	; (8001230 <MPU6050_Read_Accel+0x1d4>)
- 800117e:	6979      	ldr	r1, [r7, #20]
- 8001180:	00c9      	lsls	r1, r1, #3
- 8001182:	4401      	add	r1, r0
- 8001184:	e9c1 2300 	strd	r2, r3, [r1]
-
-        KalmanFilterUpdateAccel(&accelFilter, Ax, R_ACCEL, 1); // Apply Kalman filter to accelerometer data
- 8001188:	4b24      	ldr	r3, [pc, #144]	; (800121c <MPU6050_Read_Accel+0x1c0>)
- 800118a:	edd3 7a00 	vldr	s15, [r3]
- 800118e:	f107 030c 	add.w	r3, r7, #12
- 8001192:	eeb7 1a00 	vmov.f32	s2, #112	; 0x3f800000  1.0
- 8001196:	eddf 0a27 	vldr	s1, [pc, #156]	; 8001234 <MPU6050_Read_Accel+0x1d8>
- 800119a:	eeb0 0a67 	vmov.f32	s0, s15
- 800119e:	4618      	mov	r0, r3
- 80011a0:	f7ff fe78 	bl	8000e94 <KalmanFilterUpdateAccel>
-
-        Kalman_accel_x[i] = accelFilter.x;
- 80011a4:	68fb      	ldr	r3, [r7, #12]
- 80011a6:	4618      	mov	r0, r3
- 80011a8:	f7ff f97a 	bl	80004a0 <__aeabi_f2d>
- 80011ac:	4602      	mov	r2, r0
- 80011ae:	460b      	mov	r3, r1
- 80011b0:	4821      	ldr	r0, [pc, #132]	; (8001238 <MPU6050_Read_Accel+0x1dc>)
- 80011b2:	6979      	ldr	r1, [r7, #20]
- 80011b4:	00c9      	lsls	r1, r1, #3
- 80011b6:	4401      	add	r1, r0
- 80011b8:	e9c1 2300 	strd	r2, r3, [r1]
-        Kalman_accel_y[i] = accelFilter.P;
- 80011bc:	693b      	ldr	r3, [r7, #16]
- 80011be:	4618      	mov	r0, r3
- 80011c0:	f7ff f96e 	bl	80004a0 <__aeabi_f2d>
- 80011c4:	4602      	mov	r2, r0
- 80011c6:	460b      	mov	r3, r1
- 80011c8:	481c      	ldr	r0, [pc, #112]	; (800123c <MPU6050_Read_Accel+0x1e0>)
- 80011ca:	6979      	ldr	r1, [r7, #20]
- 80011cc:	00c9      	lsls	r1, r1, #3
- 80011ce:	4401      	add	r1, r0
- 80011d0:	e9c1 2300 	strd	r2, r3, [r1]
-        Kalman_accel_z[i] = Az;
- 80011d4:	4b13      	ldr	r3, [pc, #76]	; (8001224 <MPU6050_Read_Accel+0x1c8>)
- 80011d6:	681b      	ldr	r3, [r3, #0]
- 80011d8:	4618      	mov	r0, r3
- 80011da:	f7ff f961 	bl	80004a0 <__aeabi_f2d>
- 80011de:	4602      	mov	r2, r0
- 80011e0:	460b      	mov	r3, r1
- 80011e2:	4817      	ldr	r0, [pc, #92]	; (8001240 <MPU6050_Read_Accel+0x1e4>)
- 80011e4:	6979      	ldr	r1, [r7, #20]
- 80011e6:	00c9      	lsls	r1, r1, #3
- 80011e8:	4401      	add	r1, r0
- 80011ea:	e9c1 2300 	strd	r2, r3, [r1]
-    for (int i = 0; i < 100; i++)
- 80011ee:	697b      	ldr	r3, [r7, #20]
- 80011f0:	3301      	adds	r3, #1
- 80011f2:	617b      	str	r3, [r7, #20]
- 80011f4:	697b      	ldr	r3, [r7, #20]
- 80011f6:	2b63      	cmp	r3, #99	; 0x63
- 80011f8:	f77f af3b 	ble.w	8001072 <MPU6050_Read_Accel+0x16>
-    }
-}
- 80011fc:	bf00      	nop
- 80011fe:	bf00      	nop
- 8001200:	3718      	adds	r7, #24
- 8001202:	46bd      	mov	sp, r7
- 8001204:	bd80      	pop	{r7, pc}
- 8001206:	bf00      	nop
- 8001208:	2000007c 	.word	0x2000007c
- 800120c:	20000124 	.word	0x20000124
- 8001210:	20000126 	.word	0x20000126
- 8001214:	20000128 	.word	0x20000128
- 8001218:	40d00000 	.word	0x40d00000
- 800121c:	20002cf0 	.word	0x20002cf0
- 8001220:	20002cf4 	.word	0x20002cf4
- 8001224:	20002cf8 	.word	0x20002cf8
- 8001228:	200013f0 	.word	0x200013f0
- 800122c:	20001710 	.word	0x20001710
- 8001230:	20001a30 	.word	0x20001a30
- 8001234:	3c23d70a 	.word	0x3c23d70a
- 8001238:	20000130 	.word	0x20000130
- 800123c:	20000450 	.word	0x20000450
- 8001240:	20000770 	.word	0x20000770
- 8001244:	00000000 	.word	0x00000000
-
-08001248 <MPU6050_Read_Gyro>:
-
-void MPU6050_Read_Gyro(void)
-{
- 8001248:	b580      	push	{r7, lr}
- 800124a:	b08a      	sub	sp, #40	; 0x28
- 800124c:	af04      	add	r7, sp, #16
-    KalmanFilterGyro gyroFilter;
-    initKalmanFilterGyro(&gyroFilter);
- 800124e:	f107 030c 	add.w	r3, r7, #12
- 8001252:	4618      	mov	r0, r3
- 8001254:	f7ff fe0c 	bl	8000e70 <initKalmanFilterGyro>
-
-    for (int i = 0; i < 100; i++)
- 8001258:	2300      	movs	r3, #0
- 800125a:	617b      	str	r3, [r7, #20]
- 800125c:	e0c0      	b.n	80013e0 <MPU6050_Read_Gyro+0x198>
-    {
-        uint8_t Rec_Data[6];
-        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
- 800125e:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
- 8001262:	9302      	str	r3, [sp, #8]
- 8001264:	2306      	movs	r3, #6
- 8001266:	9301      	str	r3, [sp, #4]
- 8001268:	1d3b      	adds	r3, r7, #4
- 800126a:	9300      	str	r3, [sp, #0]
- 800126c:	2301      	movs	r3, #1
- 800126e:	2243      	movs	r2, #67	; 0x43
- 8001270:	21d0      	movs	r1, #208	; 0xd0
- 8001272:	4863      	ldr	r0, [pc, #396]	; (8001400 <MPU6050_Read_Gyro+0x1b8>)
- 8001274:	f001 fbfe 	bl	8002a74 <HAL_I2C_Mem_Read>
-        Gyro_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
- 8001278:	793b      	ldrb	r3, [r7, #4]
- 800127a:	021b      	lsls	r3, r3, #8
- 800127c:	b21a      	sxth	r2, r3
- 800127e:	797b      	ldrb	r3, [r7, #5]
- 8001280:	b21b      	sxth	r3, r3
- 8001282:	4313      	orrs	r3, r2
- 8001284:	b21a      	sxth	r2, r3
- 8001286:	4b5f      	ldr	r3, [pc, #380]	; (8001404 <MPU6050_Read_Gyro+0x1bc>)
- 8001288:	801a      	strh	r2, [r3, #0]
-        Gyro_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
- 800128a:	79bb      	ldrb	r3, [r7, #6]
- 800128c:	021b      	lsls	r3, r3, #8
- 800128e:	b21a      	sxth	r2, r3
- 8001290:	79fb      	ldrb	r3, [r7, #7]
- 8001292:	b21b      	sxth	r3, r3
- 8001294:	4313      	orrs	r3, r2
- 8001296:	b21a      	sxth	r2, r3
- 8001298:	4b5b      	ldr	r3, [pc, #364]	; (8001408 <MPU6050_Read_Gyro+0x1c0>)
- 800129a:	801a      	strh	r2, [r3, #0]
-        Gyro_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
- 800129c:	7a3b      	ldrb	r3, [r7, #8]
- 800129e:	021b      	lsls	r3, r3, #8
- 80012a0:	b21a      	sxth	r2, r3
- 80012a2:	7a7b      	ldrb	r3, [r7, #9]
- 80012a4:	b21b      	sxth	r3, r3
- 80012a6:	4313      	orrs	r3, r2
- 80012a8:	b21a      	sxth	r2, r3
- 80012aa:	4b58      	ldr	r3, [pc, #352]	; (800140c <MPU6050_Read_Gyro+0x1c4>)
- 80012ac:	801a      	strh	r2, [r3, #0]
-        Gx = Gyro_X_RAW / 131.0;
- 80012ae:	4b55      	ldr	r3, [pc, #340]	; (8001404 <MPU6050_Read_Gyro+0x1bc>)
- 80012b0:	f9b3 3000 	ldrsh.w	r3, [r3]
- 80012b4:	4618      	mov	r0, r3
- 80012b6:	f7ff f8e1 	bl	800047c <__aeabi_i2d>
- 80012ba:	a34f      	add	r3, pc, #316	; (adr r3, 80013f8 <MPU6050_Read_Gyro+0x1b0>)
- 80012bc:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80012c0:	f7ff fa70 	bl	80007a4 <__aeabi_ddiv>
- 80012c4:	4602      	mov	r2, r0
- 80012c6:	460b      	mov	r3, r1
- 80012c8:	4610      	mov	r0, r2
- 80012ca:	4619      	mov	r1, r3
- 80012cc:	f7ff fbf0 	bl	8000ab0 <__aeabi_d2f>
- 80012d0:	4603      	mov	r3, r0
- 80012d2:	4a4f      	ldr	r2, [pc, #316]	; (8001410 <MPU6050_Read_Gyro+0x1c8>)
- 80012d4:	6013      	str	r3, [r2, #0]
-        Gy = Gyro_Y_RAW / 131.0;
- 80012d6:	4b4c      	ldr	r3, [pc, #304]	; (8001408 <MPU6050_Read_Gyro+0x1c0>)
- 80012d8:	f9b3 3000 	ldrsh.w	r3, [r3]
- 80012dc:	4618      	mov	r0, r3
- 80012de:	f7ff f8cd 	bl	800047c <__aeabi_i2d>
- 80012e2:	a345      	add	r3, pc, #276	; (adr r3, 80013f8 <MPU6050_Read_Gyro+0x1b0>)
- 80012e4:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80012e8:	f7ff fa5c 	bl	80007a4 <__aeabi_ddiv>
- 80012ec:	4602      	mov	r2, r0
- 80012ee:	460b      	mov	r3, r1
- 80012f0:	4610      	mov	r0, r2
- 80012f2:	4619      	mov	r1, r3
- 80012f4:	f7ff fbdc 	bl	8000ab0 <__aeabi_d2f>
- 80012f8:	4603      	mov	r3, r0
- 80012fa:	4a46      	ldr	r2, [pc, #280]	; (8001414 <MPU6050_Read_Gyro+0x1cc>)
- 80012fc:	6013      	str	r3, [r2, #0]
-        Gz = Gyro_Z_RAW / 131.0;
- 80012fe:	4b43      	ldr	r3, [pc, #268]	; (800140c <MPU6050_Read_Gyro+0x1c4>)
- 8001300:	f9b3 3000 	ldrsh.w	r3, [r3]
- 8001304:	4618      	mov	r0, r3
- 8001306:	f7ff f8b9 	bl	800047c <__aeabi_i2d>
- 800130a:	a33b      	add	r3, pc, #236	; (adr r3, 80013f8 <MPU6050_Read_Gyro+0x1b0>)
- 800130c:	e9d3 2300 	ldrd	r2, r3, [r3]
- 8001310:	f7ff fa48 	bl	80007a4 <__aeabi_ddiv>
- 8001314:	4602      	mov	r2, r0
- 8001316:	460b      	mov	r3, r1
- 8001318:	4610      	mov	r0, r2
- 800131a:	4619      	mov	r1, r3
- 800131c:	f7ff fbc8 	bl	8000ab0 <__aeabi_d2f>
- 8001320:	4603      	mov	r3, r0
- 8001322:	4a3d      	ldr	r2, [pc, #244]	; (8001418 <MPU6050_Read_Gyro+0x1d0>)
- 8001324:	6013      	str	r3, [r2, #0]
-
-        arr_gyro_x[i] = Gx;
- 8001326:	4b3a      	ldr	r3, [pc, #232]	; (8001410 <MPU6050_Read_Gyro+0x1c8>)
- 8001328:	681b      	ldr	r3, [r3, #0]
- 800132a:	4618      	mov	r0, r3
- 800132c:	f7ff f8b8 	bl	80004a0 <__aeabi_f2d>
- 8001330:	4602      	mov	r2, r0
- 8001332:	460b      	mov	r3, r1
- 8001334:	4839      	ldr	r0, [pc, #228]	; (800141c <MPU6050_Read_Gyro+0x1d4>)
- 8001336:	6979      	ldr	r1, [r7, #20]
- 8001338:	00c9      	lsls	r1, r1, #3
- 800133a:	4401      	add	r1, r0
- 800133c:	e9c1 2300 	strd	r2, r3, [r1]
-        arr_gyro_y[i] = Gy;
- 8001340:	4b34      	ldr	r3, [pc, #208]	; (8001414 <MPU6050_Read_Gyro+0x1cc>)
- 8001342:	681b      	ldr	r3, [r3, #0]
- 8001344:	4618      	mov	r0, r3
- 8001346:	f7ff f8ab 	bl	80004a0 <__aeabi_f2d>
- 800134a:	4602      	mov	r2, r0
- 800134c:	460b      	mov	r3, r1
- 800134e:	4834      	ldr	r0, [pc, #208]	; (8001420 <MPU6050_Read_Gyro+0x1d8>)
- 8001350:	6979      	ldr	r1, [r7, #20]
- 8001352:	00c9      	lsls	r1, r1, #3
- 8001354:	4401      	add	r1, r0
- 8001356:	e9c1 2300 	strd	r2, r3, [r1]
-        arr_gyro_z[i] = Gz;
- 800135a:	4b2f      	ldr	r3, [pc, #188]	; (8001418 <MPU6050_Read_Gyro+0x1d0>)
- 800135c:	681b      	ldr	r3, [r3, #0]
- 800135e:	4618      	mov	r0, r3
- 8001360:	f7ff f89e 	bl	80004a0 <__aeabi_f2d>
- 8001364:	4602      	mov	r2, r0
- 8001366:	460b      	mov	r3, r1
- 8001368:	482e      	ldr	r0, [pc, #184]	; (8001424 <MPU6050_Read_Gyro+0x1dc>)
- 800136a:	6979      	ldr	r1, [r7, #20]
- 800136c:	00c9      	lsls	r1, r1, #3
- 800136e:	4401      	add	r1, r0
- 8001370:	e9c1 2300 	strd	r2, r3, [r1]
-
-        KalmanFilterUpdateGyro(&gyroFilter, Gz, R_GYRO, 1); // Apply Kalman filter to gyroscope data
- 8001374:	4b28      	ldr	r3, [pc, #160]	; (8001418 <MPU6050_Read_Gyro+0x1d0>)
- 8001376:	edd3 7a00 	vldr	s15, [r3]
- 800137a:	f107 030c 	add.w	r3, r7, #12
- 800137e:	eeb7 1a00 	vmov.f32	s2, #112	; 0x3f800000  1.0
- 8001382:	eddf 0a29 	vldr	s1, [pc, #164]	; 8001428 <MPU6050_Read_Gyro+0x1e0>
- 8001386:	eeb0 0a67 	vmov.f32	s0, s15
- 800138a:	4618      	mov	r0, r3
- 800138c:	f7ff fdd6 	bl	8000f3c <KalmanFilterUpdateGyro>
-
-        Kalman_gyro_x[i] = gyroFilter.x;
- 8001390:	68fb      	ldr	r3, [r7, #12]
- 8001392:	4618      	mov	r0, r3
- 8001394:	f7ff f884 	bl	80004a0 <__aeabi_f2d>
- 8001398:	4602      	mov	r2, r0
- 800139a:	460b      	mov	r3, r1
- 800139c:	4823      	ldr	r0, [pc, #140]	; (800142c <MPU6050_Read_Gyro+0x1e4>)
- 800139e:	6979      	ldr	r1, [r7, #20]
- 80013a0:	00c9      	lsls	r1, r1, #3
- 80013a2:	4401      	add	r1, r0
- 80013a4:	e9c1 2300 	strd	r2, r3, [r1]
-        Kalman_gyro_y[i] = gyroFilter.P;
- 80013a8:	693b      	ldr	r3, [r7, #16]
- 80013aa:	4618      	mov	r0, r3
- 80013ac:	f7ff f878 	bl	80004a0 <__aeabi_f2d>
- 80013b0:	4602      	mov	r2, r0
- 80013b2:	460b      	mov	r3, r1
- 80013b4:	481e      	ldr	r0, [pc, #120]	; (8001430 <MPU6050_Read_Gyro+0x1e8>)
- 80013b6:	6979      	ldr	r1, [r7, #20]
- 80013b8:	00c9      	lsls	r1, r1, #3
- 80013ba:	4401      	add	r1, r0
- 80013bc:	e9c1 2300 	strd	r2, r3, [r1]
-        Kalman_gyro_z[i] = Gz;
- 80013c0:	4b15      	ldr	r3, [pc, #84]	; (8001418 <MPU6050_Read_Gyro+0x1d0>)
- 80013c2:	681b      	ldr	r3, [r3, #0]
- 80013c4:	4618      	mov	r0, r3
- 80013c6:	f7ff f86b 	bl	80004a0 <__aeabi_f2d>
- 80013ca:	4602      	mov	r2, r0
- 80013cc:	460b      	mov	r3, r1
- 80013ce:	4819      	ldr	r0, [pc, #100]	; (8001434 <MPU6050_Read_Gyro+0x1ec>)
- 80013d0:	6979      	ldr	r1, [r7, #20]
- 80013d2:	00c9      	lsls	r1, r1, #3
- 80013d4:	4401      	add	r1, r0
- 80013d6:	e9c1 2300 	strd	r2, r3, [r1]
-    for (int i = 0; i < 100; i++)
- 80013da:	697b      	ldr	r3, [r7, #20]
- 80013dc:	3301      	adds	r3, #1
- 80013de:	617b      	str	r3, [r7, #20]
- 80013e0:	697b      	ldr	r3, [r7, #20]
- 80013e2:	2b63      	cmp	r3, #99	; 0x63
- 80013e4:	f77f af3b 	ble.w	800125e <MPU6050_Read_Gyro+0x16>
-    }
-}
- 80013e8:	bf00      	nop
- 80013ea:	bf00      	nop
- 80013ec:	3718      	adds	r7, #24
- 80013ee:	46bd      	mov	sp, r7
- 80013f0:	bd80      	pop	{r7, pc}
- 80013f2:	bf00      	nop
- 80013f4:	f3af 8000 	nop.w
- 80013f8:	00000000 	.word	0x00000000
- 80013fc:	40606000 	.word	0x40606000
- 8001400:	2000007c 	.word	0x2000007c
- 8001404:	2000012a 	.word	0x2000012a
- 8001408:	2000012c 	.word	0x2000012c
- 800140c:	2000012e 	.word	0x2000012e
- 8001410:	20002cfc 	.word	0x20002cfc
- 8001414:	20002d00 	.word	0x20002d00
- 8001418:	20002d04 	.word	0x20002d04
- 800141c:	20001d50 	.word	0x20001d50
- 8001420:	20002070 	.word	0x20002070
- 8001424:	20002390 	.word	0x20002390
- 8001428:	3c23d70a 	.word	0x3c23d70a
- 800142c:	20000a90 	.word	0x20000a90
- 8001430:	20000db0 	.word	0x20000db0
- 8001434:	200010d0 	.word	0x200010d0
-
-08001438 <BMP280_ReadPressure>:
-
-void BMP280_ReadPressure (void) // Function for reading data from BMP280
-{
- 8001438:	b5b0      	push	{r4, r5, r7, lr}
- 800143a:	b08e      	sub	sp, #56	; 0x38
- 800143c:	af02      	add	r7, sp, #8
+ 8000e50:	b5b0      	push	{r4, r5, r7, lr}
+ 8000e52:	b08e      	sub	sp, #56	; 0x38
+ 8000e54:	af02      	add	r7, sp, #8
 	for (int i = 0; i < 100; i++)
- 800143e:	2300      	movs	r3, #0
- 8001440:	62fb      	str	r3, [r7, #44]	; 0x2c
- 8001442:	e07e      	b.n	8001542 <BMP280_ReadPressure+0x10a>
+ 8000e56:	2300      	movs	r3, #0
+ 8000e58:	62fb      	str	r3, [r7, #44]	; 0x2c
+ 8000e5a:	e07e      	b.n	8000f5a <BME280_ReadPressure+0x10a>
 	{
 		uint8_t data [3];
 		int32_t rawPressure;
 
 		data [0] = 0xF7; // Address register of pressure
- 8001444:	23f7      	movs	r3, #247	; 0xf7
- 8001446:	713b      	strb	r3, [r7, #4]
-		HAL_I2C_Master_Transmit (&hi2c2, BMP280_ADDRESS << 1, data, 1, HAL_MAX_DELAY); // Sending command for reading pressure data from BMP280
- 8001448:	1d3a      	adds	r2, r7, #4
- 800144a:	f04f 33ff 	mov.w	r3, #4294967295
- 800144e:	9300      	str	r3, [sp, #0]
- 8001450:	2301      	movs	r3, #1
- 8001452:	21ec      	movs	r1, #236	; 0xec
- 8001454:	4844      	ldr	r0, [pc, #272]	; (8001568 <BMP280_ReadPressure+0x130>)
- 8001456:	f000 fee3 	bl	8002220 <HAL_I2C_Master_Transmit>
-		HAL_I2C_Master_Receive (&hi2c2, BMP280_ADDRESS << 1, data, 3, HAL_MAX_DELAY);
- 800145a:	1d3a      	adds	r2, r7, #4
- 800145c:	f04f 33ff 	mov.w	r3, #4294967295
- 8001460:	9300      	str	r3, [sp, #0]
- 8001462:	2303      	movs	r3, #3
- 8001464:	21ec      	movs	r1, #236	; 0xec
- 8001466:	4840      	ldr	r0, [pc, #256]	; (8001568 <BMP280_ReadPressure+0x130>)
- 8001468:	f000 ffd8 	bl	800241c <HAL_I2C_Master_Receive>
+ 8000e5c:	23f7      	movs	r3, #247	; 0xf7
+ 8000e5e:	713b      	strb	r3, [r7, #4]
+		HAL_I2C_Master_Transmit (&hi2c2, BME280_ADDRESS << 1, data, 1, HAL_MAX_DELAY); // Sending command for reading pressure data from BMP280
+ 8000e60:	1d3a      	adds	r2, r7, #4
+ 8000e62:	f04f 33ff 	mov.w	r3, #4294967295
+ 8000e66:	9300      	str	r3, [sp, #0]
+ 8000e68:	2301      	movs	r3, #1
+ 8000e6a:	21ec      	movs	r1, #236	; 0xec
+ 8000e6c:	4844      	ldr	r0, [pc, #272]	; (8000f80 <BME280_ReadPressure+0x130>)
+ 8000e6e:	f001 f9d7 	bl	8002220 <HAL_I2C_Master_Transmit>
+		HAL_I2C_Master_Receive (&hi2c2, BME280_ADDRESS << 1, data, 3, HAL_MAX_DELAY);
+ 8000e72:	1d3a      	adds	r2, r7, #4
+ 8000e74:	f04f 33ff 	mov.w	r3, #4294967295
+ 8000e78:	9300      	str	r3, [sp, #0]
+ 8000e7a:	2303      	movs	r3, #3
+ 8000e7c:	21ec      	movs	r1, #236	; 0xec
+ 8000e7e:	4840      	ldr	r0, [pc, #256]	; (8000f80 <BME280_ReadPressure+0x130>)
+ 8000e80:	f001 facc 	bl	800241c <HAL_I2C_Master_Receive>
 
 		rawPressure = (data [0] << 12) | (data [1] << 4) | (data [2] >> 4);
- 800146c:	793b      	ldrb	r3, [r7, #4]
- 800146e:	031a      	lsls	r2, r3, #12
- 8001470:	797b      	ldrb	r3, [r7, #5]
- 8001472:	011b      	lsls	r3, r3, #4
- 8001474:	4313      	orrs	r3, r2
- 8001476:	79ba      	ldrb	r2, [r7, #6]
- 8001478:	0912      	lsrs	r2, r2, #4
- 800147a:	b2d2      	uxtb	r2, r2
- 800147c:	4313      	orrs	r3, r2
- 800147e:	62bb      	str	r3, [r7, #40]	; 0x28
+ 8000e84:	793b      	ldrb	r3, [r7, #4]
+ 8000e86:	031a      	lsls	r2, r3, #12
+ 8000e88:	797b      	ldrb	r3, [r7, #5]
+ 8000e8a:	011b      	lsls	r3, r3, #4
+ 8000e8c:	4313      	orrs	r3, r2
+ 8000e8e:	79ba      	ldrb	r2, [r7, #6]
+ 8000e90:	0912      	lsrs	r2, r2, #4
+ 8000e92:	b2d2      	uxtb	r2, r2
+ 8000e94:	4313      	orrs	r3, r2
+ 8000e96:	62bb      	str	r3, [r7, #40]	; 0x28
 		Pressure = (double) rawPressure / 256.0; // Convert in Pascal
- 8001480:	6ab8      	ldr	r0, [r7, #40]	; 0x28
- 8001482:	f7fe fffb 	bl	800047c <__aeabi_i2d>
- 8001486:	f04f 0200 	mov.w	r2, #0
- 800148a:	4b38      	ldr	r3, [pc, #224]	; (800156c <BMP280_ReadPressure+0x134>)
- 800148c:	f7ff f98a 	bl	80007a4 <__aeabi_ddiv>
- 8001490:	4602      	mov	r2, r0
- 8001492:	460b      	mov	r3, r1
- 8001494:	4610      	mov	r0, r2
- 8001496:	4619      	mov	r1, r3
- 8001498:	f7ff fb0a 	bl	8000ab0 <__aeabi_d2f>
- 800149c:	4603      	mov	r3, r0
- 800149e:	4a34      	ldr	r2, [pc, #208]	; (8001570 <BMP280_ReadPressure+0x138>)
- 80014a0:	6013      	str	r3, [r2, #0]
+ 8000e98:	6ab8      	ldr	r0, [r7, #40]	; 0x28
+ 8000e9a:	f7ff faef 	bl	800047c <__aeabi_i2d>
+ 8000e9e:	f04f 0200 	mov.w	r2, #0
+ 8000ea2:	4b38      	ldr	r3, [pc, #224]	; (8000f84 <BME280_ReadPressure+0x134>)
+ 8000ea4:	f7ff fc7e 	bl	80007a4 <__aeabi_ddiv>
+ 8000ea8:	4602      	mov	r2, r0
+ 8000eaa:	460b      	mov	r3, r1
+ 8000eac:	4610      	mov	r0, r2
+ 8000eae:	4619      	mov	r1, r3
+ 8000eb0:	f7ff fdfe 	bl	8000ab0 <__aeabi_d2f>
+ 8000eb4:	4603      	mov	r3, r0
+ 8000eb6:	4a34      	ldr	r2, [pc, #208]	; (8000f88 <BME280_ReadPressure+0x138>)
+ 8000eb8:	6013      	str	r3, [r2, #0]
 
 		const double T0 = 15; // Temperature at sea level in Celsius (15 °C)
- 80014a2:	f04f 0200 	mov.w	r2, #0
- 80014a6:	4b33      	ldr	r3, [pc, #204]	; (8001574 <BMP280_ReadPressure+0x13c>)
- 80014a8:	e9c7 2308 	strd	r2, r3, [r7, #32]
+ 8000eba:	f04f 0200 	mov.w	r2, #0
+ 8000ebe:	4b33      	ldr	r3, [pc, #204]	; (8000f8c <BME280_ReadPressure+0x13c>)
+ 8000ec0:	e9c7 2308 	strd	r2, r3, [r7, #32]
 		const double L = 0.0065;  // Standard temperature lapse rate (6.5 °C/km)
- 80014ac:	a32a      	add	r3, pc, #168	; (adr r3, 8001558 <BMP280_ReadPressure+0x120>)
- 80014ae:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80014b2:	e9c7 2306 	strd	r2, r3, [r7, #24]
+ 8000ec4:	a32a      	add	r3, pc, #168	; (adr r3, 8000f70 <BME280_ReadPressure+0x120>)
+ 8000ec6:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8000eca:	e9c7 2306 	strd	r2, r3, [r7, #24]
 		const double P0 = 101325; // Pressure at sea level in Pascal
- 80014b6:	a32a      	add	r3, pc, #168	; (adr r3, 8001560 <BMP280_ReadPressure+0x128>)
- 80014b8:	e9d3 2300 	ldrd	r2, r3, [r3]
- 80014bc:	e9c7 2304 	strd	r2, r3, [r7, #16]
+ 8000ece:	a32a      	add	r3, pc, #168	; (adr r3, 8000f78 <BME280_ReadPressure+0x128>)
+ 8000ed0:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8000ed4:	e9c7 2304 	strd	r2, r3, [r7, #16]
 
-		double height = (T0 / L) * log(P0 / Pressure); // Updated formula for height calculation
- 80014c0:	e9d7 2306 	ldrd	r2, r3, [r7, #24]
- 80014c4:	e9d7 0108 	ldrd	r0, r1, [r7, #32]
- 80014c8:	f7ff f96c 	bl	80007a4 <__aeabi_ddiv>
- 80014cc:	4602      	mov	r2, r0
- 80014ce:	460b      	mov	r3, r1
- 80014d0:	4614      	mov	r4, r2
- 80014d2:	461d      	mov	r5, r3
- 80014d4:	4b26      	ldr	r3, [pc, #152]	; (8001570 <BMP280_ReadPressure+0x138>)
- 80014d6:	681b      	ldr	r3, [r3, #0]
- 80014d8:	4618      	mov	r0, r3
- 80014da:	f7fe ffe1 	bl	80004a0 <__aeabi_f2d>
- 80014de:	4602      	mov	r2, r0
- 80014e0:	460b      	mov	r3, r1
- 80014e2:	e9d7 0104 	ldrd	r0, r1, [r7, #16]
- 80014e6:	f7ff f95d 	bl	80007a4 <__aeabi_ddiv>
- 80014ea:	4602      	mov	r2, r0
- 80014ec:	460b      	mov	r3, r1
- 80014ee:	ec43 2b17 	vmov	d7, r2, r3
- 80014f2:	eeb0 0a47 	vmov.f32	s0, s14
- 80014f6:	eef0 0a67 	vmov.f32	s1, s15
- 80014fa:	f002 fe69 	bl	80041d0 <log>
- 80014fe:	ec53 2b10 	vmov	r2, r3, d0
- 8001502:	4620      	mov	r0, r4
- 8001504:	4629      	mov	r1, r5
- 8001506:	f7ff f823 	bl	8000550 <__aeabi_dmul>
- 800150a:	4602      	mov	r2, r0
- 800150c:	460b      	mov	r3, r1
- 800150e:	e9c7 2302 	strd	r2, r3, [r7, #8]
+		double height = (T0 / L) * log (P0 / Pressure);
+ 8000ed8:	e9d7 2306 	ldrd	r2, r3, [r7, #24]
+ 8000edc:	e9d7 0108 	ldrd	r0, r1, [r7, #32]
+ 8000ee0:	f7ff fc60 	bl	80007a4 <__aeabi_ddiv>
+ 8000ee4:	4602      	mov	r2, r0
+ 8000ee6:	460b      	mov	r3, r1
+ 8000ee8:	4614      	mov	r4, r2
+ 8000eea:	461d      	mov	r5, r3
+ 8000eec:	4b26      	ldr	r3, [pc, #152]	; (8000f88 <BME280_ReadPressure+0x138>)
+ 8000eee:	681b      	ldr	r3, [r3, #0]
+ 8000ef0:	4618      	mov	r0, r3
+ 8000ef2:	f7ff fad5 	bl	80004a0 <__aeabi_f2d>
+ 8000ef6:	4602      	mov	r2, r0
+ 8000ef8:	460b      	mov	r3, r1
+ 8000efa:	e9d7 0104 	ldrd	r0, r1, [r7, #16]
+ 8000efe:	f7ff fc51 	bl	80007a4 <__aeabi_ddiv>
+ 8000f02:	4602      	mov	r2, r0
+ 8000f04:	460b      	mov	r3, r1
+ 8000f06:	ec43 2b17 	vmov	d7, r2, r3
+ 8000f0a:	eeb0 0a47 	vmov.f32	s0, s14
+ 8000f0e:	eef0 0a67 	vmov.f32	s1, s15
+ 8000f12:	f003 f95d 	bl	80041d0 <log>
+ 8000f16:	ec53 2b10 	vmov	r2, r3, d0
+ 8000f1a:	4620      	mov	r0, r4
+ 8000f1c:	4629      	mov	r1, r5
+ 8000f1e:	f7ff fb17 	bl	8000550 <__aeabi_dmul>
+ 8000f22:	4602      	mov	r2, r0
+ 8000f24:	460b      	mov	r3, r1
+ 8000f26:	e9c7 2302 	strd	r2, r3, [r7, #8]
 		pressure[i] = Pressure;
- 8001512:	4b17      	ldr	r3, [pc, #92]	; (8001570 <BMP280_ReadPressure+0x138>)
- 8001514:	681b      	ldr	r3, [r3, #0]
- 8001516:	4618      	mov	r0, r3
- 8001518:	f7fe ffc2 	bl	80004a0 <__aeabi_f2d>
- 800151c:	4602      	mov	r2, r0
- 800151e:	460b      	mov	r3, r1
- 8001520:	4815      	ldr	r0, [pc, #84]	; (8001578 <BMP280_ReadPressure+0x140>)
- 8001522:	6af9      	ldr	r1, [r7, #44]	; 0x2c
- 8001524:	00c9      	lsls	r1, r1, #3
- 8001526:	4401      	add	r1, r0
- 8001528:	e9c1 2300 	strd	r2, r3, [r1]
+ 8000f2a:	4b17      	ldr	r3, [pc, #92]	; (8000f88 <BME280_ReadPressure+0x138>)
+ 8000f2c:	681b      	ldr	r3, [r3, #0]
+ 8000f2e:	4618      	mov	r0, r3
+ 8000f30:	f7ff fab6 	bl	80004a0 <__aeabi_f2d>
+ 8000f34:	4602      	mov	r2, r0
+ 8000f36:	460b      	mov	r3, r1
+ 8000f38:	4815      	ldr	r0, [pc, #84]	; (8000f90 <BME280_ReadPressure+0x140>)
+ 8000f3a:	6af9      	ldr	r1, [r7, #44]	; 0x2c
+ 8000f3c:	00c9      	lsls	r1, r1, #3
+ 8000f3e:	4401      	add	r1, r0
+ 8000f40:	e9c1 2300 	strd	r2, r3, [r1]
 		Height[i] = height;
- 800152c:	4a13      	ldr	r2, [pc, #76]	; (800157c <BMP280_ReadPressure+0x144>)
- 800152e:	6afb      	ldr	r3, [r7, #44]	; 0x2c
- 8001530:	00db      	lsls	r3, r3, #3
- 8001532:	18d1      	adds	r1, r2, r3
- 8001534:	e9d7 2302 	ldrd	r2, r3, [r7, #8]
- 8001538:	e9c1 2300 	strd	r2, r3, [r1]
+ 8000f44:	4a13      	ldr	r2, [pc, #76]	; (8000f94 <BME280_ReadPressure+0x144>)
+ 8000f46:	6afb      	ldr	r3, [r7, #44]	; 0x2c
+ 8000f48:	00db      	lsls	r3, r3, #3
+ 8000f4a:	18d1      	adds	r1, r2, r3
+ 8000f4c:	e9d7 2302 	ldrd	r2, r3, [r7, #8]
+ 8000f50:	e9c1 2300 	strd	r2, r3, [r1]
 	for (int i = 0; i < 100; i++)
- 800153c:	6afb      	ldr	r3, [r7, #44]	; 0x2c
- 800153e:	3301      	adds	r3, #1
- 8001540:	62fb      	str	r3, [r7, #44]	; 0x2c
- 8001542:	6afb      	ldr	r3, [r7, #44]	; 0x2c
- 8001544:	2b63      	cmp	r3, #99	; 0x63
- 8001546:	f77f af7d 	ble.w	8001444 <BMP280_ReadPressure+0xc>
+ 8000f54:	6afb      	ldr	r3, [r7, #44]	; 0x2c
+ 8000f56:	3301      	adds	r3, #1
+ 8000f58:	62fb      	str	r3, [r7, #44]	; 0x2c
+ 8000f5a:	6afb      	ldr	r3, [r7, #44]	; 0x2c
+ 8000f5c:	2b63      	cmp	r3, #99	; 0x63
+ 8000f5e:	f77f af7d 	ble.w	8000e5c <BME280_ReadPressure+0xc>
 	}
 }
- 800154a:	bf00      	nop
- 800154c:	bf00      	nop
- 800154e:	3730      	adds	r7, #48	; 0x30
- 8001550:	46bd      	mov	sp, r7
- 8001552:	bdb0      	pop	{r4, r5, r7, pc}
- 8001554:	f3af 8000 	nop.w
- 8001558:	76c8b439 	.word	0x76c8b439
- 800155c:	3f7a9fbe 	.word	0x3f7a9fbe
- 8001560:	00000000 	.word	0x00000000
- 8001564:	40f8bcd0 	.word	0x40f8bcd0
- 8001568:	200000d0 	.word	0x200000d0
- 800156c:	40700000 	.word	0x40700000
- 8001570:	20002d08 	.word	0x20002d08
- 8001574:	402e0000 	.word	0x402e0000
- 8001578:	200026b0 	.word	0x200026b0
- 800157c:	200029d0 	.word	0x200029d0
+ 8000f62:	bf00      	nop
+ 8000f64:	bf00      	nop
+ 8000f66:	3730      	adds	r7, #48	; 0x30
+ 8000f68:	46bd      	mov	sp, r7
+ 8000f6a:	bdb0      	pop	{r4, r5, r7, pc}
+ 8000f6c:	f3af 8000 	nop.w
+ 8000f70:	76c8b439 	.word	0x76c8b439
+ 8000f74:	3f7a9fbe 	.word	0x3f7a9fbe
+ 8000f78:	00000000 	.word	0x00000000
+ 8000f7c:	40f8bcd0 	.word	0x40f8bcd0
+ 8000f80:	20002cc0 	.word	0x20002cc0
+ 8000f84:	40700000 	.word	0x40700000
+ 8000f88:	200006c0 	.word	0x200006c0
+ 8000f8c:	402e0000 	.word	0x402e0000
+ 8000f90:	20000080 	.word	0x20000080
+ 8000f94:	200003a0 	.word	0x200003a0
+
+08000f98 <initKalmanFilterAccel>:
+
+float x_gyro = 0;
+float P_gyro = 1;
+
+void initKalmanFilterAccel(KalmanFilterAccel *filter) // Function to initialize Kalman filter for accelerometer
+{
+ 8000f98:	b480      	push	{r7}
+ 8000f9a:	b083      	sub	sp, #12
+ 8000f9c:	af00      	add	r7, sp, #0
+ 8000f9e:	6078      	str	r0, [r7, #4]
+    filter->x = 0;
+ 8000fa0:	687b      	ldr	r3, [r7, #4]
+ 8000fa2:	f04f 0200 	mov.w	r2, #0
+ 8000fa6:	601a      	str	r2, [r3, #0]
+    filter->P = 1;
+ 8000fa8:	687b      	ldr	r3, [r7, #4]
+ 8000faa:	f04f 527e 	mov.w	r2, #1065353216	; 0x3f800000
+ 8000fae:	605a      	str	r2, [r3, #4]
+}
+ 8000fb0:	bf00      	nop
+ 8000fb2:	370c      	adds	r7, #12
+ 8000fb4:	46bd      	mov	sp, r7
+ 8000fb6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000fba:	4770      	bx	lr
+
+08000fbc <initKalmanFilterGyro>:
+
+void initKalmanFilterGyro(KalmanFilterGyro *filter) // Function to initialize Kalman filter for gyroscope
+{
+ 8000fbc:	b480      	push	{r7}
+ 8000fbe:	b083      	sub	sp, #12
+ 8000fc0:	af00      	add	r7, sp, #0
+ 8000fc2:	6078      	str	r0, [r7, #4]
+    filter->x = 0;
+ 8000fc4:	687b      	ldr	r3, [r7, #4]
+ 8000fc6:	f04f 0200 	mov.w	r2, #0
+ 8000fca:	601a      	str	r2, [r3, #0]
+    filter->P = 1;
+ 8000fcc:	687b      	ldr	r3, [r7, #4]
+ 8000fce:	f04f 527e 	mov.w	r2, #1065353216	; 0x3f800000
+ 8000fd2:	605a      	str	r2, [r3, #4]
+}
+ 8000fd4:	bf00      	nop
+ 8000fd6:	370c      	adds	r7, #12
+ 8000fd8:	46bd      	mov	sp, r7
+ 8000fda:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000fde:	4770      	bx	lr
+
+08000fe0 <KalmanFilterUpdateAccel>:
+
+void KalmanFilterUpdateAccel(KalmanFilterAccel *filter, float z, float R, float H) // Function to update Kalman filter for accelerometer
+{
+ 8000fe0:	b480      	push	{r7}
+ 8000fe2:	b089      	sub	sp, #36	; 0x24
+ 8000fe4:	af00      	add	r7, sp, #0
+ 8000fe6:	60f8      	str	r0, [r7, #12]
+ 8000fe8:	ed87 0a02 	vstr	s0, [r7, #8]
+ 8000fec:	edc7 0a01 	vstr	s1, [r7, #4]
+ 8000ff0:	ed87 1a00 	vstr	s2, [r7]
+    float x_pred = filter->x;
+ 8000ff4:	68fb      	ldr	r3, [r7, #12]
+ 8000ff6:	681b      	ldr	r3, [r3, #0]
+ 8000ff8:	61fb      	str	r3, [r7, #28]
+    float P_pred = filter->P;
+ 8000ffa:	68fb      	ldr	r3, [r7, #12]
+ 8000ffc:	685b      	ldr	r3, [r3, #4]
+ 8000ffe:	61bb      	str	r3, [r7, #24]
+
+    float K = P_pred * H / (H * P_pred * H + R);
+ 8001000:	ed97 7a06 	vldr	s14, [r7, #24]
+ 8001004:	edd7 7a00 	vldr	s15, [r7]
+ 8001008:	ee67 6a27 	vmul.f32	s13, s14, s15
+ 800100c:	ed97 7a00 	vldr	s14, [r7]
+ 8001010:	edd7 7a06 	vldr	s15, [r7, #24]
+ 8001014:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 8001018:	edd7 7a00 	vldr	s15, [r7]
+ 800101c:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 8001020:	edd7 7a01 	vldr	s15, [r7, #4]
+ 8001024:	ee37 7a27 	vadd.f32	s14, s14, s15
+ 8001028:	eec6 7a87 	vdiv.f32	s15, s13, s14
+ 800102c:	edc7 7a05 	vstr	s15, [r7, #20]
+    filter->x = x_pred + K * (z - H * x_pred);
+ 8001030:	ed97 7a00 	vldr	s14, [r7]
+ 8001034:	edd7 7a07 	vldr	s15, [r7, #28]
+ 8001038:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 800103c:	ed97 7a02 	vldr	s14, [r7, #8]
+ 8001040:	ee37 7a67 	vsub.f32	s14, s14, s15
+ 8001044:	edd7 7a05 	vldr	s15, [r7, #20]
+ 8001048:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 800104c:	edd7 7a07 	vldr	s15, [r7, #28]
+ 8001050:	ee77 7a27 	vadd.f32	s15, s14, s15
+ 8001054:	68fb      	ldr	r3, [r7, #12]
+ 8001056:	edc3 7a00 	vstr	s15, [r3]
+    filter->P = (1 - K * H) * P_pred;
+ 800105a:	ed97 7a05 	vldr	s14, [r7, #20]
+ 800105e:	edd7 7a00 	vldr	s15, [r7]
+ 8001062:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 8001066:	eeb7 7a00 	vmov.f32	s14, #112	; 0x3f800000  1.0
+ 800106a:	ee37 7a67 	vsub.f32	s14, s14, s15
+ 800106e:	edd7 7a06 	vldr	s15, [r7, #24]
+ 8001072:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 8001076:	68fb      	ldr	r3, [r7, #12]
+ 8001078:	edc3 7a01 	vstr	s15, [r3, #4]
+}
+ 800107c:	bf00      	nop
+ 800107e:	3724      	adds	r7, #36	; 0x24
+ 8001080:	46bd      	mov	sp, r7
+ 8001082:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001086:	4770      	bx	lr
+
+08001088 <KalmanFilterUpdateGyro>:
+
+void KalmanFilterUpdateGyro(KalmanFilterGyro *filter, float z, float R, float H) // Function to update Kalman filter for gyroscope
+{
+ 8001088:	b480      	push	{r7}
+ 800108a:	b089      	sub	sp, #36	; 0x24
+ 800108c:	af00      	add	r7, sp, #0
+ 800108e:	60f8      	str	r0, [r7, #12]
+ 8001090:	ed87 0a02 	vstr	s0, [r7, #8]
+ 8001094:	edc7 0a01 	vstr	s1, [r7, #4]
+ 8001098:	ed87 1a00 	vstr	s2, [r7]
+    float x_pred = filter->x;
+ 800109c:	68fb      	ldr	r3, [r7, #12]
+ 800109e:	681b      	ldr	r3, [r3, #0]
+ 80010a0:	61fb      	str	r3, [r7, #28]
+    float P_pred = filter->P;
+ 80010a2:	68fb      	ldr	r3, [r7, #12]
+ 80010a4:	685b      	ldr	r3, [r3, #4]
+ 80010a6:	61bb      	str	r3, [r7, #24]
+
+    float K = P_pred * H / (H * P_pred * H + R);
+ 80010a8:	ed97 7a06 	vldr	s14, [r7, #24]
+ 80010ac:	edd7 7a00 	vldr	s15, [r7]
+ 80010b0:	ee67 6a27 	vmul.f32	s13, s14, s15
+ 80010b4:	ed97 7a00 	vldr	s14, [r7]
+ 80010b8:	edd7 7a06 	vldr	s15, [r7, #24]
+ 80010bc:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 80010c0:	edd7 7a00 	vldr	s15, [r7]
+ 80010c4:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 80010c8:	edd7 7a01 	vldr	s15, [r7, #4]
+ 80010cc:	ee37 7a27 	vadd.f32	s14, s14, s15
+ 80010d0:	eec6 7a87 	vdiv.f32	s15, s13, s14
+ 80010d4:	edc7 7a05 	vstr	s15, [r7, #20]
+    filter->x = x_pred + K * (z - H * x_pred);
+ 80010d8:	ed97 7a00 	vldr	s14, [r7]
+ 80010dc:	edd7 7a07 	vldr	s15, [r7, #28]
+ 80010e0:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 80010e4:	ed97 7a02 	vldr	s14, [r7, #8]
+ 80010e8:	ee37 7a67 	vsub.f32	s14, s14, s15
+ 80010ec:	edd7 7a05 	vldr	s15, [r7, #20]
+ 80010f0:	ee27 7a27 	vmul.f32	s14, s14, s15
+ 80010f4:	edd7 7a07 	vldr	s15, [r7, #28]
+ 80010f8:	ee77 7a27 	vadd.f32	s15, s14, s15
+ 80010fc:	68fb      	ldr	r3, [r7, #12]
+ 80010fe:	edc3 7a00 	vstr	s15, [r3]
+    filter->P = (1 - K * H) * P_pred;
+ 8001102:	ed97 7a05 	vldr	s14, [r7, #20]
+ 8001106:	edd7 7a00 	vldr	s15, [r7]
+ 800110a:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 800110e:	eeb7 7a00 	vmov.f32	s14, #112	; 0x3f800000  1.0
+ 8001112:	ee37 7a67 	vsub.f32	s14, s14, s15
+ 8001116:	edd7 7a06 	vldr	s15, [r7, #24]
+ 800111a:	ee67 7a27 	vmul.f32	s15, s14, s15
+ 800111e:	68fb      	ldr	r3, [r7, #12]
+ 8001120:	edc3 7a01 	vstr	s15, [r3, #4]
+}
+ 8001124:	bf00      	nop
+ 8001126:	3724      	adds	r7, #36	; 0x24
+ 8001128:	46bd      	mov	sp, r7
+ 800112a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800112e:	4770      	bx	lr
+
+08001130 <MPU6050_Init>:
+int16_t Gyro_X_RAW = 0; // Initialization variables for 3 coordinates X, Y, Z of gyroscope
+int16_t Gyro_Y_RAW = 0;
+int16_t Gyro_Z_RAW = 0;
+
+void MPU6050_Init(void)
+{
+ 8001130:	b580      	push	{r7, lr}
+ 8001132:	b086      	sub	sp, #24
+ 8001134:	af04      	add	r7, sp, #16
+    uint8_t check, Data;
+    HAL_Delay(1000);
+ 8001136:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 800113a:	f000 fc9f 	bl	8001a7c <HAL_Delay>
+    HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
+ 800113e:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 8001142:	9302      	str	r3, [sp, #8]
+ 8001144:	2301      	movs	r3, #1
+ 8001146:	9301      	str	r3, [sp, #4]
+ 8001148:	1dfb      	adds	r3, r7, #7
+ 800114a:	9300      	str	r3, [sp, #0]
+ 800114c:	2301      	movs	r3, #1
+ 800114e:	2275      	movs	r2, #117	; 0x75
+ 8001150:	21d0      	movs	r1, #208	; 0xd0
+ 8001152:	4814      	ldr	r0, [pc, #80]	; (80011a4 <MPU6050_Init+0x74>)
+ 8001154:	f001 fc8e 	bl	8002a74 <HAL_I2C_Mem_Read>
+
+    if (check == 0x68)
+ 8001158:	79fb      	ldrb	r3, [r7, #7]
+ 800115a:	2b68      	cmp	r3, #104	; 0x68
+ 800115c:	d11d      	bne.n	800119a <MPU6050_Init+0x6a>
+    {
+        Data = 0;
+ 800115e:	2300      	movs	r3, #0
+ 8001160:	71bb      	strb	r3, [r7, #6]
+        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &Data, 1, 1000);
+ 8001162:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 8001166:	9302      	str	r3, [sp, #8]
+ 8001168:	2301      	movs	r3, #1
+ 800116a:	9301      	str	r3, [sp, #4]
+ 800116c:	1dbb      	adds	r3, r7, #6
+ 800116e:	9300      	str	r3, [sp, #0]
+ 8001170:	2301      	movs	r3, #1
+ 8001172:	226b      	movs	r2, #107	; 0x6b
+ 8001174:	21d0      	movs	r1, #208	; 0xd0
+ 8001176:	480b      	ldr	r0, [pc, #44]	; (80011a4 <MPU6050_Init+0x74>)
+ 8001178:	f001 fb82 	bl	8002880 <HAL_I2C_Mem_Write>
+        Data = 0x07;
+ 800117c:	2307      	movs	r3, #7
+ 800117e:	71bb      	strb	r3, [r7, #6]
+        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
+ 8001180:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 8001184:	9302      	str	r3, [sp, #8]
+ 8001186:	2301      	movs	r3, #1
+ 8001188:	9301      	str	r3, [sp, #4]
+ 800118a:	1dbb      	adds	r3, r7, #6
+ 800118c:	9300      	str	r3, [sp, #0]
+ 800118e:	2301      	movs	r3, #1
+ 8001190:	2219      	movs	r2, #25
+ 8001192:	21d0      	movs	r1, #208	; 0xd0
+ 8001194:	4803      	ldr	r0, [pc, #12]	; (80011a4 <MPU6050_Init+0x74>)
+ 8001196:	f001 fb73 	bl	8002880 <HAL_I2C_Mem_Write>
+    }
+}
+ 800119a:	bf00      	nop
+ 800119c:	3708      	adds	r7, #8
+ 800119e:	46bd      	mov	sp, r7
+ 80011a0:	bd80      	pop	{r7, pc}
+ 80011a2:	bf00      	nop
+ 80011a4:	20002c6c 	.word	0x20002c6c
+
+080011a8 <MPU6050_Read_Accel>:
+
+void MPU6050_Read_Accel(void)
+{
+ 80011a8:	b580      	push	{r7, lr}
+ 80011aa:	b08a      	sub	sp, #40	; 0x28
+ 80011ac:	af04      	add	r7, sp, #16
+    KalmanFilterAccel accelFilter;
+    initKalmanFilterAccel(&accelFilter);
+ 80011ae:	f107 030c 	add.w	r3, r7, #12
+ 80011b2:	4618      	mov	r0, r3
+ 80011b4:	f7ff fef0 	bl	8000f98 <initKalmanFilterAccel>
+
+    for (int i = 0; i < 100; i++)
+ 80011b8:	2300      	movs	r3, #0
+ 80011ba:	617b      	str	r3, [r7, #20]
+ 80011bc:	e0c0      	b.n	8001340 <MPU6050_Read_Accel+0x198>
+    {
+        uint8_t Rec_Data[6];
+        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
+ 80011be:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 80011c2:	9302      	str	r3, [sp, #8]
+ 80011c4:	2306      	movs	r3, #6
+ 80011c6:	9301      	str	r3, [sp, #4]
+ 80011c8:	1d3b      	adds	r3, r7, #4
+ 80011ca:	9300      	str	r3, [sp, #0]
+ 80011cc:	2301      	movs	r3, #1
+ 80011ce:	223b      	movs	r2, #59	; 0x3b
+ 80011d0:	21d0      	movs	r1, #208	; 0xd0
+ 80011d2:	4860      	ldr	r0, [pc, #384]	; (8001354 <MPU6050_Read_Accel+0x1ac>)
+ 80011d4:	f001 fc4e 	bl	8002a74 <HAL_I2C_Mem_Read>
+
+        Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
+ 80011d8:	793b      	ldrb	r3, [r7, #4]
+ 80011da:	021b      	lsls	r3, r3, #8
+ 80011dc:	b21a      	sxth	r2, r3
+ 80011de:	797b      	ldrb	r3, [r7, #5]
+ 80011e0:	b21b      	sxth	r3, r3
+ 80011e2:	4313      	orrs	r3, r2
+ 80011e4:	b21a      	sxth	r2, r3
+ 80011e6:	4b5c      	ldr	r3, [pc, #368]	; (8001358 <MPU6050_Read_Accel+0x1b0>)
+ 80011e8:	801a      	strh	r2, [r3, #0]
+        Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
+ 80011ea:	79bb      	ldrb	r3, [r7, #6]
+ 80011ec:	021b      	lsls	r3, r3, #8
+ 80011ee:	b21a      	sxth	r2, r3
+ 80011f0:	79fb      	ldrb	r3, [r7, #7]
+ 80011f2:	b21b      	sxth	r3, r3
+ 80011f4:	4313      	orrs	r3, r2
+ 80011f6:	b21a      	sxth	r2, r3
+ 80011f8:	4b58      	ldr	r3, [pc, #352]	; (800135c <MPU6050_Read_Accel+0x1b4>)
+ 80011fa:	801a      	strh	r2, [r3, #0]
+        Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
+ 80011fc:	7a3b      	ldrb	r3, [r7, #8]
+ 80011fe:	021b      	lsls	r3, r3, #8
+ 8001200:	b21a      	sxth	r2, r3
+ 8001202:	7a7b      	ldrb	r3, [r7, #9]
+ 8001204:	b21b      	sxth	r3, r3
+ 8001206:	4313      	orrs	r3, r2
+ 8001208:	b21a      	sxth	r2, r3
+ 800120a:	4b55      	ldr	r3, [pc, #340]	; (8001360 <MPU6050_Read_Accel+0x1b8>)
+ 800120c:	801a      	strh	r2, [r3, #0]
+        Ax = Accel_X_RAW / 16384.0;
+ 800120e:	4b52      	ldr	r3, [pc, #328]	; (8001358 <MPU6050_Read_Accel+0x1b0>)
+ 8001210:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 8001214:	4618      	mov	r0, r3
+ 8001216:	f7ff f931 	bl	800047c <__aeabi_i2d>
+ 800121a:	f04f 0200 	mov.w	r2, #0
+ 800121e:	4b51      	ldr	r3, [pc, #324]	; (8001364 <MPU6050_Read_Accel+0x1bc>)
+ 8001220:	f7ff fac0 	bl	80007a4 <__aeabi_ddiv>
+ 8001224:	4602      	mov	r2, r0
+ 8001226:	460b      	mov	r3, r1
+ 8001228:	4610      	mov	r0, r2
+ 800122a:	4619      	mov	r1, r3
+ 800122c:	f7ff fc40 	bl	8000ab0 <__aeabi_d2f>
+ 8001230:	4603      	mov	r3, r0
+ 8001232:	4a4d      	ldr	r2, [pc, #308]	; (8001368 <MPU6050_Read_Accel+0x1c0>)
+ 8001234:	6013      	str	r3, [r2, #0]
+        Ay = Accel_Y_RAW / 16384.0;
+ 8001236:	4b49      	ldr	r3, [pc, #292]	; (800135c <MPU6050_Read_Accel+0x1b4>)
+ 8001238:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 800123c:	4618      	mov	r0, r3
+ 800123e:	f7ff f91d 	bl	800047c <__aeabi_i2d>
+ 8001242:	f04f 0200 	mov.w	r2, #0
+ 8001246:	4b47      	ldr	r3, [pc, #284]	; (8001364 <MPU6050_Read_Accel+0x1bc>)
+ 8001248:	f7ff faac 	bl	80007a4 <__aeabi_ddiv>
+ 800124c:	4602      	mov	r2, r0
+ 800124e:	460b      	mov	r3, r1
+ 8001250:	4610      	mov	r0, r2
+ 8001252:	4619      	mov	r1, r3
+ 8001254:	f7ff fc2c 	bl	8000ab0 <__aeabi_d2f>
+ 8001258:	4603      	mov	r3, r0
+ 800125a:	4a44      	ldr	r2, [pc, #272]	; (800136c <MPU6050_Read_Accel+0x1c4>)
+ 800125c:	6013      	str	r3, [r2, #0]
+        Az = Accel_Z_RAW / 16384.0;
+ 800125e:	4b40      	ldr	r3, [pc, #256]	; (8001360 <MPU6050_Read_Accel+0x1b8>)
+ 8001260:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 8001264:	4618      	mov	r0, r3
+ 8001266:	f7ff f909 	bl	800047c <__aeabi_i2d>
+ 800126a:	f04f 0200 	mov.w	r2, #0
+ 800126e:	4b3d      	ldr	r3, [pc, #244]	; (8001364 <MPU6050_Read_Accel+0x1bc>)
+ 8001270:	f7ff fa98 	bl	80007a4 <__aeabi_ddiv>
+ 8001274:	4602      	mov	r2, r0
+ 8001276:	460b      	mov	r3, r1
+ 8001278:	4610      	mov	r0, r2
+ 800127a:	4619      	mov	r1, r3
+ 800127c:	f7ff fc18 	bl	8000ab0 <__aeabi_d2f>
+ 8001280:	4603      	mov	r3, r0
+ 8001282:	4a3b      	ldr	r2, [pc, #236]	; (8001370 <MPU6050_Read_Accel+0x1c8>)
+ 8001284:	6013      	str	r3, [r2, #0]
+
+        arr_accel_x[i] = Ax;
+ 8001286:	4b38      	ldr	r3, [pc, #224]	; (8001368 <MPU6050_Read_Accel+0x1c0>)
+ 8001288:	681b      	ldr	r3, [r3, #0]
+ 800128a:	4618      	mov	r0, r3
+ 800128c:	f7ff f908 	bl	80004a0 <__aeabi_f2d>
+ 8001290:	4602      	mov	r2, r0
+ 8001292:	460b      	mov	r3, r1
+ 8001294:	4837      	ldr	r0, [pc, #220]	; (8001374 <MPU6050_Read_Accel+0x1cc>)
+ 8001296:	6979      	ldr	r1, [r7, #20]
+ 8001298:	00c9      	lsls	r1, r1, #3
+ 800129a:	4401      	add	r1, r0
+ 800129c:	e9c1 2300 	strd	r2, r3, [r1]
+        arr_accel_y[i] = Ay;
+ 80012a0:	4b32      	ldr	r3, [pc, #200]	; (800136c <MPU6050_Read_Accel+0x1c4>)
+ 80012a2:	681b      	ldr	r3, [r3, #0]
+ 80012a4:	4618      	mov	r0, r3
+ 80012a6:	f7ff f8fb 	bl	80004a0 <__aeabi_f2d>
+ 80012aa:	4602      	mov	r2, r0
+ 80012ac:	460b      	mov	r3, r1
+ 80012ae:	4832      	ldr	r0, [pc, #200]	; (8001378 <MPU6050_Read_Accel+0x1d0>)
+ 80012b0:	6979      	ldr	r1, [r7, #20]
+ 80012b2:	00c9      	lsls	r1, r1, #3
+ 80012b4:	4401      	add	r1, r0
+ 80012b6:	e9c1 2300 	strd	r2, r3, [r1]
+        arr_accel_z[i] = Az;
+ 80012ba:	4b2d      	ldr	r3, [pc, #180]	; (8001370 <MPU6050_Read_Accel+0x1c8>)
+ 80012bc:	681b      	ldr	r3, [r3, #0]
+ 80012be:	4618      	mov	r0, r3
+ 80012c0:	f7ff f8ee 	bl	80004a0 <__aeabi_f2d>
+ 80012c4:	4602      	mov	r2, r0
+ 80012c6:	460b      	mov	r3, r1
+ 80012c8:	482c      	ldr	r0, [pc, #176]	; (800137c <MPU6050_Read_Accel+0x1d4>)
+ 80012ca:	6979      	ldr	r1, [r7, #20]
+ 80012cc:	00c9      	lsls	r1, r1, #3
+ 80012ce:	4401      	add	r1, r0
+ 80012d0:	e9c1 2300 	strd	r2, r3, [r1]
+
+        KalmanFilterUpdateAccel(&accelFilter, Ax, R_ACCEL, 1); // Apply Kalman filter to accelerometer data
+ 80012d4:	4b24      	ldr	r3, [pc, #144]	; (8001368 <MPU6050_Read_Accel+0x1c0>)
+ 80012d6:	edd3 7a00 	vldr	s15, [r3]
+ 80012da:	f107 030c 	add.w	r3, r7, #12
+ 80012de:	eeb7 1a00 	vmov.f32	s2, #112	; 0x3f800000  1.0
+ 80012e2:	eddf 0a27 	vldr	s1, [pc, #156]	; 8001380 <MPU6050_Read_Accel+0x1d8>
+ 80012e6:	eeb0 0a67 	vmov.f32	s0, s15
+ 80012ea:	4618      	mov	r0, r3
+ 80012ec:	f7ff fe78 	bl	8000fe0 <KalmanFilterUpdateAccel>
+
+        Kalman_accel_x[i] = accelFilter.x;
+ 80012f0:	68fb      	ldr	r3, [r7, #12]
+ 80012f2:	4618      	mov	r0, r3
+ 80012f4:	f7ff f8d4 	bl	80004a0 <__aeabi_f2d>
+ 80012f8:	4602      	mov	r2, r0
+ 80012fa:	460b      	mov	r3, r1
+ 80012fc:	4821      	ldr	r0, [pc, #132]	; (8001384 <MPU6050_Read_Accel+0x1dc>)
+ 80012fe:	6979      	ldr	r1, [r7, #20]
+ 8001300:	00c9      	lsls	r1, r1, #3
+ 8001302:	4401      	add	r1, r0
+ 8001304:	e9c1 2300 	strd	r2, r3, [r1]
+        Kalman_accel_y[i] = accelFilter.P;
+ 8001308:	693b      	ldr	r3, [r7, #16]
+ 800130a:	4618      	mov	r0, r3
+ 800130c:	f7ff f8c8 	bl	80004a0 <__aeabi_f2d>
+ 8001310:	4602      	mov	r2, r0
+ 8001312:	460b      	mov	r3, r1
+ 8001314:	481c      	ldr	r0, [pc, #112]	; (8001388 <MPU6050_Read_Accel+0x1e0>)
+ 8001316:	6979      	ldr	r1, [r7, #20]
+ 8001318:	00c9      	lsls	r1, r1, #3
+ 800131a:	4401      	add	r1, r0
+ 800131c:	e9c1 2300 	strd	r2, r3, [r1]
+        Kalman_accel_z[i] = Az;
+ 8001320:	4b13      	ldr	r3, [pc, #76]	; (8001370 <MPU6050_Read_Accel+0x1c8>)
+ 8001322:	681b      	ldr	r3, [r3, #0]
+ 8001324:	4618      	mov	r0, r3
+ 8001326:	f7ff f8bb 	bl	80004a0 <__aeabi_f2d>
+ 800132a:	4602      	mov	r2, r0
+ 800132c:	460b      	mov	r3, r1
+ 800132e:	4817      	ldr	r0, [pc, #92]	; (800138c <MPU6050_Read_Accel+0x1e4>)
+ 8001330:	6979      	ldr	r1, [r7, #20]
+ 8001332:	00c9      	lsls	r1, r1, #3
+ 8001334:	4401      	add	r1, r0
+ 8001336:	e9c1 2300 	strd	r2, r3, [r1]
+    for (int i = 0; i < 100; i++)
+ 800133a:	697b      	ldr	r3, [r7, #20]
+ 800133c:	3301      	adds	r3, #1
+ 800133e:	617b      	str	r3, [r7, #20]
+ 8001340:	697b      	ldr	r3, [r7, #20]
+ 8001342:	2b63      	cmp	r3, #99	; 0x63
+ 8001344:	f77f af3b 	ble.w	80011be <MPU6050_Read_Accel+0x16>
+    }
+}
+ 8001348:	bf00      	nop
+ 800134a:	bf00      	nop
+ 800134c:	3718      	adds	r7, #24
+ 800134e:	46bd      	mov	sp, r7
+ 8001350:	bd80      	pop	{r7, pc}
+ 8001352:	bf00      	nop
+ 8001354:	20002c6c 	.word	0x20002c6c
+ 8001358:	20002c60 	.word	0x20002c60
+ 800135c:	20002c62 	.word	0x20002c62
+ 8001360:	20002c64 	.word	0x20002c64
+ 8001364:	40d00000 	.word	0x40d00000
+ 8001368:	20002c48 	.word	0x20002c48
+ 800136c:	20002c4c 	.word	0x20002c4c
+ 8001370:	20002c50 	.word	0x20002c50
+ 8001374:	20001988 	.word	0x20001988
+ 8001378:	20001ca8 	.word	0x20001ca8
+ 800137c:	20001fc8 	.word	0x20001fc8
+ 8001380:	3c23d70a 	.word	0x3c23d70a
+ 8001384:	200006c8 	.word	0x200006c8
+ 8001388:	200009e8 	.word	0x200009e8
+ 800138c:	20000d08 	.word	0x20000d08
+
+08001390 <MPU6050_Read_Gyro>:
+
+void MPU6050_Read_Gyro(void)
+{
+ 8001390:	b580      	push	{r7, lr}
+ 8001392:	b08a      	sub	sp, #40	; 0x28
+ 8001394:	af04      	add	r7, sp, #16
+    KalmanFilterGyro gyroFilter;
+    initKalmanFilterGyro(&gyroFilter);
+ 8001396:	f107 030c 	add.w	r3, r7, #12
+ 800139a:	4618      	mov	r0, r3
+ 800139c:	f7ff fe0e 	bl	8000fbc <initKalmanFilterGyro>
+
+    for (int i = 0; i < 100; i++)
+ 80013a0:	2300      	movs	r3, #0
+ 80013a2:	617b      	str	r3, [r7, #20]
+ 80013a4:	e0c0      	b.n	8001528 <MPU6050_Read_Gyro+0x198>
+    {
+        uint8_t Rec_Data[6];
+        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
+ 80013a6:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 80013aa:	9302      	str	r3, [sp, #8]
+ 80013ac:	2306      	movs	r3, #6
+ 80013ae:	9301      	str	r3, [sp, #4]
+ 80013b0:	1d3b      	adds	r3, r7, #4
+ 80013b2:	9300      	str	r3, [sp, #0]
+ 80013b4:	2301      	movs	r3, #1
+ 80013b6:	2243      	movs	r2, #67	; 0x43
+ 80013b8:	21d0      	movs	r1, #208	; 0xd0
+ 80013ba:	4863      	ldr	r0, [pc, #396]	; (8001548 <MPU6050_Read_Gyro+0x1b8>)
+ 80013bc:	f001 fb5a 	bl	8002a74 <HAL_I2C_Mem_Read>
+        Gyro_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
+ 80013c0:	793b      	ldrb	r3, [r7, #4]
+ 80013c2:	021b      	lsls	r3, r3, #8
+ 80013c4:	b21a      	sxth	r2, r3
+ 80013c6:	797b      	ldrb	r3, [r7, #5]
+ 80013c8:	b21b      	sxth	r3, r3
+ 80013ca:	4313      	orrs	r3, r2
+ 80013cc:	b21a      	sxth	r2, r3
+ 80013ce:	4b5f      	ldr	r3, [pc, #380]	; (800154c <MPU6050_Read_Gyro+0x1bc>)
+ 80013d0:	801a      	strh	r2, [r3, #0]
+        Gyro_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
+ 80013d2:	79bb      	ldrb	r3, [r7, #6]
+ 80013d4:	021b      	lsls	r3, r3, #8
+ 80013d6:	b21a      	sxth	r2, r3
+ 80013d8:	79fb      	ldrb	r3, [r7, #7]
+ 80013da:	b21b      	sxth	r3, r3
+ 80013dc:	4313      	orrs	r3, r2
+ 80013de:	b21a      	sxth	r2, r3
+ 80013e0:	4b5b      	ldr	r3, [pc, #364]	; (8001550 <MPU6050_Read_Gyro+0x1c0>)
+ 80013e2:	801a      	strh	r2, [r3, #0]
+        Gyro_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
+ 80013e4:	7a3b      	ldrb	r3, [r7, #8]
+ 80013e6:	021b      	lsls	r3, r3, #8
+ 80013e8:	b21a      	sxth	r2, r3
+ 80013ea:	7a7b      	ldrb	r3, [r7, #9]
+ 80013ec:	b21b      	sxth	r3, r3
+ 80013ee:	4313      	orrs	r3, r2
+ 80013f0:	b21a      	sxth	r2, r3
+ 80013f2:	4b58      	ldr	r3, [pc, #352]	; (8001554 <MPU6050_Read_Gyro+0x1c4>)
+ 80013f4:	801a      	strh	r2, [r3, #0]
+        Gx = Gyro_X_RAW / 131.0;
+ 80013f6:	4b55      	ldr	r3, [pc, #340]	; (800154c <MPU6050_Read_Gyro+0x1bc>)
+ 80013f8:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 80013fc:	4618      	mov	r0, r3
+ 80013fe:	f7ff f83d 	bl	800047c <__aeabi_i2d>
+ 8001402:	a34f      	add	r3, pc, #316	; (adr r3, 8001540 <MPU6050_Read_Gyro+0x1b0>)
+ 8001404:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8001408:	f7ff f9cc 	bl	80007a4 <__aeabi_ddiv>
+ 800140c:	4602      	mov	r2, r0
+ 800140e:	460b      	mov	r3, r1
+ 8001410:	4610      	mov	r0, r2
+ 8001412:	4619      	mov	r1, r3
+ 8001414:	f7ff fb4c 	bl	8000ab0 <__aeabi_d2f>
+ 8001418:	4603      	mov	r3, r0
+ 800141a:	4a4f      	ldr	r2, [pc, #316]	; (8001558 <MPU6050_Read_Gyro+0x1c8>)
+ 800141c:	6013      	str	r3, [r2, #0]
+        Gy = Gyro_Y_RAW / 131.0;
+ 800141e:	4b4c      	ldr	r3, [pc, #304]	; (8001550 <MPU6050_Read_Gyro+0x1c0>)
+ 8001420:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 8001424:	4618      	mov	r0, r3
+ 8001426:	f7ff f829 	bl	800047c <__aeabi_i2d>
+ 800142a:	a345      	add	r3, pc, #276	; (adr r3, 8001540 <MPU6050_Read_Gyro+0x1b0>)
+ 800142c:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8001430:	f7ff f9b8 	bl	80007a4 <__aeabi_ddiv>
+ 8001434:	4602      	mov	r2, r0
+ 8001436:	460b      	mov	r3, r1
+ 8001438:	4610      	mov	r0, r2
+ 800143a:	4619      	mov	r1, r3
+ 800143c:	f7ff fb38 	bl	8000ab0 <__aeabi_d2f>
+ 8001440:	4603      	mov	r3, r0
+ 8001442:	4a46      	ldr	r2, [pc, #280]	; (800155c <MPU6050_Read_Gyro+0x1cc>)
+ 8001444:	6013      	str	r3, [r2, #0]
+        Gz = Gyro_Z_RAW / 131.0;
+ 8001446:	4b43      	ldr	r3, [pc, #268]	; (8001554 <MPU6050_Read_Gyro+0x1c4>)
+ 8001448:	f9b3 3000 	ldrsh.w	r3, [r3]
+ 800144c:	4618      	mov	r0, r3
+ 800144e:	f7ff f815 	bl	800047c <__aeabi_i2d>
+ 8001452:	a33b      	add	r3, pc, #236	; (adr r3, 8001540 <MPU6050_Read_Gyro+0x1b0>)
+ 8001454:	e9d3 2300 	ldrd	r2, r3, [r3]
+ 8001458:	f7ff f9a4 	bl	80007a4 <__aeabi_ddiv>
+ 800145c:	4602      	mov	r2, r0
+ 800145e:	460b      	mov	r3, r1
+ 8001460:	4610      	mov	r0, r2
+ 8001462:	4619      	mov	r1, r3
+ 8001464:	f7ff fb24 	bl	8000ab0 <__aeabi_d2f>
+ 8001468:	4603      	mov	r3, r0
+ 800146a:	4a3d      	ldr	r2, [pc, #244]	; (8001560 <MPU6050_Read_Gyro+0x1d0>)
+ 800146c:	6013      	str	r3, [r2, #0]
+
+        arr_gyro_x[i] = Gx;
+ 800146e:	4b3a      	ldr	r3, [pc, #232]	; (8001558 <MPU6050_Read_Gyro+0x1c8>)
+ 8001470:	681b      	ldr	r3, [r3, #0]
+ 8001472:	4618      	mov	r0, r3
+ 8001474:	f7ff f814 	bl	80004a0 <__aeabi_f2d>
+ 8001478:	4602      	mov	r2, r0
+ 800147a:	460b      	mov	r3, r1
+ 800147c:	4839      	ldr	r0, [pc, #228]	; (8001564 <MPU6050_Read_Gyro+0x1d4>)
+ 800147e:	6979      	ldr	r1, [r7, #20]
+ 8001480:	00c9      	lsls	r1, r1, #3
+ 8001482:	4401      	add	r1, r0
+ 8001484:	e9c1 2300 	strd	r2, r3, [r1]
+        arr_gyro_y[i] = Gy;
+ 8001488:	4b34      	ldr	r3, [pc, #208]	; (800155c <MPU6050_Read_Gyro+0x1cc>)
+ 800148a:	681b      	ldr	r3, [r3, #0]
+ 800148c:	4618      	mov	r0, r3
+ 800148e:	f7ff f807 	bl	80004a0 <__aeabi_f2d>
+ 8001492:	4602      	mov	r2, r0
+ 8001494:	460b      	mov	r3, r1
+ 8001496:	4834      	ldr	r0, [pc, #208]	; (8001568 <MPU6050_Read_Gyro+0x1d8>)
+ 8001498:	6979      	ldr	r1, [r7, #20]
+ 800149a:	00c9      	lsls	r1, r1, #3
+ 800149c:	4401      	add	r1, r0
+ 800149e:	e9c1 2300 	strd	r2, r3, [r1]
+        arr_gyro_z[i] = Gz;
+ 80014a2:	4b2f      	ldr	r3, [pc, #188]	; (8001560 <MPU6050_Read_Gyro+0x1d0>)
+ 80014a4:	681b      	ldr	r3, [r3, #0]
+ 80014a6:	4618      	mov	r0, r3
+ 80014a8:	f7fe fffa 	bl	80004a0 <__aeabi_f2d>
+ 80014ac:	4602      	mov	r2, r0
+ 80014ae:	460b      	mov	r3, r1
+ 80014b0:	482e      	ldr	r0, [pc, #184]	; (800156c <MPU6050_Read_Gyro+0x1dc>)
+ 80014b2:	6979      	ldr	r1, [r7, #20]
+ 80014b4:	00c9      	lsls	r1, r1, #3
+ 80014b6:	4401      	add	r1, r0
+ 80014b8:	e9c1 2300 	strd	r2, r3, [r1]
+
+        KalmanFilterUpdateGyro(&gyroFilter, Gz, R_GYRO, 1); // Apply Kalman filter to gyroscope data
+ 80014bc:	4b28      	ldr	r3, [pc, #160]	; (8001560 <MPU6050_Read_Gyro+0x1d0>)
+ 80014be:	edd3 7a00 	vldr	s15, [r3]
+ 80014c2:	f107 030c 	add.w	r3, r7, #12
+ 80014c6:	eeb7 1a00 	vmov.f32	s2, #112	; 0x3f800000  1.0
+ 80014ca:	eddf 0a29 	vldr	s1, [pc, #164]	; 8001570 <MPU6050_Read_Gyro+0x1e0>
+ 80014ce:	eeb0 0a67 	vmov.f32	s0, s15
+ 80014d2:	4618      	mov	r0, r3
+ 80014d4:	f7ff fdd8 	bl	8001088 <KalmanFilterUpdateGyro>
+
+        Kalman_gyro_x[i] = gyroFilter.x;
+ 80014d8:	68fb      	ldr	r3, [r7, #12]
+ 80014da:	4618      	mov	r0, r3
+ 80014dc:	f7fe ffe0 	bl	80004a0 <__aeabi_f2d>
+ 80014e0:	4602      	mov	r2, r0
+ 80014e2:	460b      	mov	r3, r1
+ 80014e4:	4823      	ldr	r0, [pc, #140]	; (8001574 <MPU6050_Read_Gyro+0x1e4>)
+ 80014e6:	6979      	ldr	r1, [r7, #20]
+ 80014e8:	00c9      	lsls	r1, r1, #3
+ 80014ea:	4401      	add	r1, r0
+ 80014ec:	e9c1 2300 	strd	r2, r3, [r1]
+        Kalman_gyro_y[i] = gyroFilter.P;
+ 80014f0:	693b      	ldr	r3, [r7, #16]
+ 80014f2:	4618      	mov	r0, r3
+ 80014f4:	f7fe ffd4 	bl	80004a0 <__aeabi_f2d>
+ 80014f8:	4602      	mov	r2, r0
+ 80014fa:	460b      	mov	r3, r1
+ 80014fc:	481e      	ldr	r0, [pc, #120]	; (8001578 <MPU6050_Read_Gyro+0x1e8>)
+ 80014fe:	6979      	ldr	r1, [r7, #20]
+ 8001500:	00c9      	lsls	r1, r1, #3
+ 8001502:	4401      	add	r1, r0
+ 8001504:	e9c1 2300 	strd	r2, r3, [r1]
+        Kalman_gyro_z[i] = Gz;
+ 8001508:	4b15      	ldr	r3, [pc, #84]	; (8001560 <MPU6050_Read_Gyro+0x1d0>)
+ 800150a:	681b      	ldr	r3, [r3, #0]
+ 800150c:	4618      	mov	r0, r3
+ 800150e:	f7fe ffc7 	bl	80004a0 <__aeabi_f2d>
+ 8001512:	4602      	mov	r2, r0
+ 8001514:	460b      	mov	r3, r1
+ 8001516:	4819      	ldr	r0, [pc, #100]	; (800157c <MPU6050_Read_Gyro+0x1ec>)
+ 8001518:	6979      	ldr	r1, [r7, #20]
+ 800151a:	00c9      	lsls	r1, r1, #3
+ 800151c:	4401      	add	r1, r0
+ 800151e:	e9c1 2300 	strd	r2, r3, [r1]
+    for (int i = 0; i < 100; i++)
+ 8001522:	697b      	ldr	r3, [r7, #20]
+ 8001524:	3301      	adds	r3, #1
+ 8001526:	617b      	str	r3, [r7, #20]
+ 8001528:	697b      	ldr	r3, [r7, #20]
+ 800152a:	2b63      	cmp	r3, #99	; 0x63
+ 800152c:	f77f af3b 	ble.w	80013a6 <MPU6050_Read_Gyro+0x16>
+    }
+}
+ 8001530:	bf00      	nop
+ 8001532:	bf00      	nop
+ 8001534:	3718      	adds	r7, #24
+ 8001536:	46bd      	mov	sp, r7
+ 8001538:	bd80      	pop	{r7, pc}
+ 800153a:	bf00      	nop
+ 800153c:	f3af 8000 	nop.w
+ 8001540:	00000000 	.word	0x00000000
+ 8001544:	40606000 	.word	0x40606000
+ 8001548:	20002c6c 	.word	0x20002c6c
+ 800154c:	20002c66 	.word	0x20002c66
+ 8001550:	20002c68 	.word	0x20002c68
+ 8001554:	20002c6a 	.word	0x20002c6a
+ 8001558:	20002c54 	.word	0x20002c54
+ 800155c:	20002c58 	.word	0x20002c58
+ 8001560:	20002c5c 	.word	0x20002c5c
+ 8001564:	200022e8 	.word	0x200022e8
+ 8001568:	20002608 	.word	0x20002608
+ 800156c:	20002928 	.word	0x20002928
+ 8001570:	3c23d70a 	.word	0x3c23d70a
+ 8001574:	20001028 	.word	0x20001028
+ 8001578:	20001348 	.word	0x20001348
+ 800157c:	20001668 	.word	0x20001668
 
 08001580 <main>:
 /**
@@ -2032,19 +2039,19 @@ int main(void)
  8001594:	f000 f898 	bl	80016c8 <MX_I2C2_Init>
   /* USER CODE BEGIN 2 */
 	MPU6050_Init();
- 8001598:	f7ff fd24 	bl	8000fe4 <MPU6050_Init>
+ 8001598:	f7ff fdca 	bl	8001130 <MPU6050_Init>
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
 	  MPU6050_Read_Accel();
- 800159c:	f7ff fd5e 	bl	800105c <MPU6050_Read_Accel>
+ 800159c:	f7ff fe04 	bl	80011a8 <MPU6050_Read_Accel>
 	  MPU6050_Read_Gyro();
- 80015a0:	f7ff fe52 	bl	8001248 <MPU6050_Read_Gyro>
-	  BMP280_ReadPressure();
- 80015a4:	f7ff ff48 	bl	8001438 <BMP280_ReadPressure>
-	  MPU6050_Read_Accel();
+ 80015a0:	f7ff fef6 	bl	8001390 <MPU6050_Read_Gyro>
+	  BME280_ReadPressure();
+ 80015a4:	f7ff fc54 	bl	8000e50 <BME280_ReadPressure>
+  {
  80015a8:	e7f8      	b.n	800159c <main+0x1c>
 	...
 
@@ -2237,7 +2244,7 @@ static void MX_I2C1_Init(void)
 }
  80016b8:	bf00      	nop
  80016ba:	bd80      	pop	{r7, pc}
- 80016bc:	2000007c 	.word	0x2000007c
+ 80016bc:	20002c6c 	.word	0x20002c6c
  80016c0:	40005400 	.word	0x40005400
  80016c4:	000186a0 	.word	0x000186a0
 
@@ -2308,7 +2315,7 @@ static void MX_I2C2_Init(void)
 }
  8001714:	bf00      	nop
  8001716:	bd80      	pop	{r7, pc}
- 8001718:	200000d0 	.word	0x200000d0
+ 8001718:	20002cc0 	.word	0x20002cc0
  800171c:	40005800 	.word	0x40005800
  8001720:	000186a0 	.word	0x000186a0
 
@@ -2878,7 +2885,7 @@ LoopFillZerobss:
   ldr r2, =_sbss
  800198c:	20000060 	.word	0x20000060
   ldr r4, =_ebss
- 8001990:	20002e48 	.word	0x20002e48
+ 8001990:	20002e50 	.word	0x20002e50
 
 08001994 <ADC_IRQHandler>:
  * @retval None       
@@ -3041,7 +3048,7 @@ __weak void HAL_IncTick(void)
  8001a58:	4770      	bx	lr
  8001a5a:	bf00      	nop
  8001a5c:	20000008 	.word	0x20000008
- 8001a60:	20002d0c 	.word	0x20002d0c
+ 8001a60:	20002d14 	.word	0x20002d14
 
 08001a64 <HAL_GetTick>:
   * @note This function is declared as __weak to be overwritten in case of other 
@@ -3061,7 +3068,7 @@ __weak uint32_t HAL_GetTick(void)
  8001a70:	f85d 7b04 	ldr.w	r7, [sp], #4
  8001a74:	4770      	bx	lr
  8001a76:	bf00      	nop
- 8001a78:	20002d0c 	.word	0x20002d0c
+ 8001a78:	20002d14 	.word	0x20002d14
 
 08001a7c <HAL_Delay>:
   *       implementations in user file.
