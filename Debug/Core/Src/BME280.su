@@ -1,1 +1,2 @@
-../Core/Src/BME280.c:13:6:BME280_ReadPressure	72	static
+../Core/Src/BME280.c:40:6:BME280_ReadPressure	96	static
+../Core/Src/BME280.c:64:6:BME280_ReadTemperature	56	static

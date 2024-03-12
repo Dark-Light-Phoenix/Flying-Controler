@@ -1,7 +1,7 @@
 #ifndef INC_MPU6050_H_
 #define INC_MPU6050_H_
 
-#define MPU6050_ADDR 0xD0 // Define addresses of MPU6050
+#define MPU6050_ADDR 0xD0 // Addresses of MPU6050, accelerometer and gyroscope registers
 #define SMPLRT_DIV_REG 0x19
 #define GYRO_CONFIG_REG 0x1B
 #define ACCEL_CONFIG_REG 0x1C
@@ -12,5 +12,9 @@
 #define WHO_AM_I_REG 0x75
 #define R_ACCEL 0.01
 #define R_GYRO 0.01
+
+void MPU6050_Init(void);
+void MPU6050_Read_Accel(void);
+void MPU6050_Read_Gyro(void);
 
 #endif /* INC_MPU6050_H_ */

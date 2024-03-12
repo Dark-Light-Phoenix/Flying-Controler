@@ -58,192 +58,6 @@ static void MX_I2C2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//#define MPU6050_ADDR 0xD0 // Define addresses of MPU6050
-//#define SMPLRT_DIV_REG 0x19
-//#define GYRO_CONFIG_REG 0x1B
-//#define ACCEL_CONFIG_REG 0x1C
-//#define ACCEL_XOUT_H_REG 0x3B
-//#define TEMP_OUT_H_REG 0x41
-//#define GYRO_XOUT_H_REG 0x43
-//#define PWR_MGMT_1_REG 0x6B
-//#define WHO_AM_I_REG 0x75
-//#define R_ACCEL 0.01
-//#define R_GYRO 0.01
-//#define BME280_ADDRESS 0x76 // Define address of BMP280
-//
-//int16_t Accel_X_RAW = 0; // Initialization variables for 3 coordinates X, Y, Z of accelerometer
-//int16_t Accel_Y_RAW = 0;
-//int16_t Accel_Z_RAW = 0;
-//
-//int16_t Gyro_X_RAW = 0; // Initialization variables for 3 coordinates X, Y, Z of gyroscope
-//int16_t Gyro_Y_RAW = 0;
-//int16_t Gyro_Z_RAW = 0;
-
-//double Kalman_accel_x[100] = {0}; // Creating massive for data of Kalman filter for accelerometer variables
-//double Kalman_accel_y[100] = {0};
-//double Kalman_accel_z[100] = {0};
-//double Kalman_gyro_x[100] = {0}; // Creating massive for data of Kalman filter for gyroscope variables
-//double Kalman_gyro_y[100] = {0};
-//double Kalman_gyro_z[100] = {0};
-//
-//double arr_accel_x[100] = {0}; // Creating massive for raw data of accelerometer variables
-//double arr_accel_y[100] = {0};
-//double arr_accel_z[100] = {0};
-//double arr_gyro_x[100] = {0}; // Creating massive for raw data of gyroscope variables
-//double arr_gyro_y[100] = {0};
-//double arr_gyro_z[100] = {0};
-//
-//double pressure[100] = {0}; // Creating massive for pressure data
-//double Height[100] = {0}; // Creating massive for height data that converted from pressure
-
-//float Ax, Ay, Az, Gx, Gy, Gz, Pressure; // Crating variables of accelerometer, gyroscope and BMP280
-
-//float x_accel = 0;
-//float P_accel = 1;
-//
-//float x_gyro = 0;
-//float P_gyro = 1;
-
-//typedef struct // Kalman filter structure for accelerometer
-//{
-//    float x;
-//    float P;
-//} KalmanFilterAccel;
-//
-//typedef struct // Kalman filter structure for gyroscope
-//{
-//    float x;
-//    float P;
-//} KalmanFilterGyro;
-
-
-//void initKalmanFilterAccel(KalmanFilterAccel *filter) // Function to initialize Kalman filter for accelerometer
-//{
-//    filter->x = 0;
-//    filter->P = 1;
-//}
-//
-//void initKalmanFilterGyro(KalmanFilterGyro *filter) // Function to initialize Kalman filter for gyroscope
-//{
-//    filter->x = 0;
-//    filter->P = 1;
-//}
-
-//void KalmanFilterUpdateAccel(KalmanFilterAccel *filter, float z, float R, float H) // Function to update Kalman filter for accelerometer
-//{
-//    float x_pred = filter->x;
-//    float P_pred = filter->P;
-//
-//    float K = P_pred * H / (H * P_pred * H + R);
-//    filter->x = x_pred + K * (z - H * x_pred);
-//    filter->P = (1 - K * H) * P_pred;
-//}
-//
-//void KalmanFilterUpdateGyro(KalmanFilterGyro *filter, float z, float R, float H) // Function to update Kalman filter for gyroscope
-//{
-//    float x_pred = filter->x;
-//    float P_pred = filter->P;
-//
-//    float K = P_pred * H / (H * P_pred * H + R);
-//    filter->x = x_pred + K * (z - H * x_pred);
-//    filter->P = (1 - K * H) * P_pred;
-//}
-
-//void MPU6050_Init(void)
-//{
-//    uint8_t check, Data;
-//    HAL_Delay(1000);
-//    HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
-//
-//    if (check == 0x68)
-//    {
-//        Data = 0;
-//        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, PWR_MGMT_1_REG, 1, &Data, 1, 1000);
-//        Data = 0x07;
-//        HAL_I2C_Mem_Write(&hi2c1, MPU6050_ADDR, SMPLRT_DIV_REG, 1, &Data, 1, 1000);
-//    }
-//}
-//
-//void MPU6050_Read_Accel(void)
-//{
-//    KalmanFilterAccel accelFilter;
-//    initKalmanFilterAccel(&accelFilter);
-//
-//    for (int i = 0; i < 100; i++)
-//    {
-//        uint8_t Rec_Data[6];
-//        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 6, 1000);
-//
-//        Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
-//        Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
-//        Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
-//        Ax = Accel_X_RAW / 16384.0;
-//        Ay = Accel_Y_RAW / 16384.0;
-//        Az = Accel_Z_RAW / 16384.0;
-//
-//        arr_accel_x[i] = Ax;
-//        arr_accel_y[i] = Ay;
-//        arr_accel_z[i] = Az;
-//
-//        KalmanFilterUpdateAccel(&accelFilter, Ax, R_ACCEL, 1); // Apply Kalman filter to accelerometer data
-//
-//        Kalman_accel_x[i] = accelFilter.x;
-//        Kalman_accel_y[i] = accelFilter.P;
-//        Kalman_accel_z[i] = Az;
-//    }
-//}
-//
-//void MPU6050_Read_Gyro(void)
-//{
-//    KalmanFilterGyro gyroFilter;
-//    initKalmanFilterGyro(&gyroFilter);
-//
-//    for (int i = 0; i < 100; i++)
-//    {
-//        uint8_t Rec_Data[6];
-//        HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, Rec_Data, 6, 1000);
-//        Gyro_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
-//        Gyro_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data[3]);
-//        Gyro_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data[5]);
-//        Gx = Gyro_X_RAW / 131.0;
-//        Gy = Gyro_Y_RAW / 131.0;
-//        Gz = Gyro_Z_RAW / 131.0;
-//
-//        arr_gyro_x[i] = Gx;
-//        arr_gyro_y[i] = Gy;
-//        arr_gyro_z[i] = Gz;
-//
-//        KalmanFilterUpdateGyro(&gyroFilter, Gz, R_GYRO, 1); // Apply Kalman filter to gyroscope data
-//
-//        Kalman_gyro_x[i] = gyroFilter.x;
-//        Kalman_gyro_y[i] = gyroFilter.P;
-//        Kalman_gyro_z[i] = Gz;
-//    }
-//}
-
-//void BMP280_ReadPressure (void) // Function for reading data from BMP280
-//{
-//	for (int i = 0; i < 100; i++)
-//	{
-//		uint8_t data [3];
-//		int32_t rawPressure;
-//
-//		data [0] = 0xF7; // Address register of pressure
-//		HAL_I2C_Master_Transmit (&hi2c2, BMP280_ADDRESS << 1, data, 1, HAL_MAX_DELAY); // Sending command for reading pressure data from BMP280
-//		HAL_I2C_Master_Receive (&hi2c2, BMP280_ADDRESS << 1, data, 3, HAL_MAX_DELAY);
-//
-//		rawPressure = (data [0] << 12) | (data [1] << 4) | (data [2] >> 4);
-//		Pressure = (double) rawPressure / 256.0; // Convert in Pascal
-//
-//		const double T0 = 15; // Temperature at sea level in Celsius (15 °C)
-//		const double L = 0.0065;  // Standard temperature lapse rate (6.5 °C/km)
-//		const double P0 = 101325; // Pressure at sea level in Pascal
-//
-//		double height = (T0 / L) * log (P0 / Pressure);
-//		pressure[i] = Pressure;
-//		Height[i] = height;
-//	}
-//}
 /* USER CODE END 0 */
 
 /**
@@ -277,7 +91,7 @@ int main(void)
   MX_I2C1_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	MPU6050_Init();
+  MPU6050_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -286,7 +100,9 @@ int main(void)
   {
 	  MPU6050_Read_Accel();
 	  MPU6050_Read_Gyro();
+
 	  BME280_ReadPressure();
+	  BME280_ReadTemperature ();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
