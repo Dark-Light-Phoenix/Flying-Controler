@@ -67,7 +67,11 @@ static void MX_I2C2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	double start_pressure;
+	double start_temperature;
+	double pressure;
+	double temperature;
+	double height;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -92,20 +96,22 @@ int main(void)
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
   MPU6050_Init();
+  BME280_First_Scan(&start_pressure, &start_temperature);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	/* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
 	  MPU6050_Read_Accel();
 	  MPU6050_Read_Gyro();
 
-	  BME280_ReadPressure();
-	  BME280_ReadTemperature ();
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+	  BME280_ReadPressure(&pressure);
+	  BME280_ReadTemperature (&temperature);
+	  BME280_Height (&start_pressure, &start_temperature, &pressure, &temperature, &height);
   }
   /* USER CODE END 3 */
 }
