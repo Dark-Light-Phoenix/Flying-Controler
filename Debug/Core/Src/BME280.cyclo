@@ -1,4 +1,4 @@
-../Core/Src/BME280.c:8:6:BME280_First_Scan	1
-../Core/Src/BME280.c:33:6:BME280_ReadPressure	1
-../Core/Src/BME280.c:42:6:BME280_ReadTemperature	1
-../Core/Src/BME280.c:58:6:BME280_Height	1
+../Core/Src/BME280.c:9:6:BME280_First_Scan	3
+../Core/Src/BME280.c:44:6:BME280_ReadPressure	2
+../Core/Src/BME280.c:58:6:BME280_ReadTemperature	2
+../Core/Src/BME280.c:79:6:BME280_Height	1
