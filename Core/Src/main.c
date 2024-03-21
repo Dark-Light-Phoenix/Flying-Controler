@@ -95,8 +95,8 @@ int main(void)
   MX_I2C1_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  MPU6050_Init();
-  BME280_First_Scan(&start_pressure, &start_temperature);
+  //MPU6050_Init();
+//  BME280_First_Scan(&start_pressure, &start_temperature);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -109,9 +109,11 @@ int main(void)
 	  MPU6050_Read_Accel();
 	  MPU6050_Read_Gyro();
 
-	  BME280_ReadPressure(&pressure);
-	  BME280_ReadTemperature (&temperature);
-	  BME280_Height (&start_pressure, &start_temperature, &pressure, &temperature, &height);
+//	  BME280_ReadPressure(&pressure);
+//	  BME280_ReadTemperature (&temperature);
+//	  BME280_Height (&start_pressure, &start_temperature, &pressure, &temperature, &height);
+
+	  BMP280_Pressure (&pressure);
   }
   /* USER CODE END 3 */
 }

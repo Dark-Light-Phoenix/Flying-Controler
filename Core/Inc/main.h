@@ -31,6 +31,7 @@ extern "C" {
 #include "BME280.h"
 #include "MPU6050.h"
 #include "Functions.h"
+#include "BMP280.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
