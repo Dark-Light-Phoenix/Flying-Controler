@@ -26,8 +26,9 @@ Core/Src/stm32f4xx_hal_msp.o: ../Core/Src/stm32f4xx_hal_msp.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Core/Inc/BME280.h ../Core/Inc/MPU6050.h ../Core/Inc/Functions.h \
- ../Core/Inc/BMP280.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h \
+ ../Core/Inc/MPU6050.h ../Core/Inc/Functions.h ../Core/Inc/BMP280.h \
+ ../Core/Inc/stm32f4xx_it.h ../Core/Inc/ESP01.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -56,7 +57,9 @@ Core/Src/stm32f4xx_hal_msp.o: ../Core/Src/stm32f4xx_hal_msp.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
-../Core/Inc/BME280.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h:
 ../Core/Inc/MPU6050.h:
 ../Core/Inc/Functions.h:
 ../Core/Inc/BMP280.h:
+../Core/Inc/stm32f4xx_it.h:
+../Core/Inc/ESP01.h:

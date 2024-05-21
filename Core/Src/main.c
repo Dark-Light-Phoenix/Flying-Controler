@@ -18,9 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "math.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 
 /* USER CODE END Includes */
 
@@ -43,6 +44,8 @@
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 
+USART_HandleTypeDef husart1;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -52,6 +55,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2C2_Init(void);
+static void MX_USART1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -67,11 +71,16 @@ static void MX_I2C2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	double start_pressure;
-	double start_temperature;
-	double pressure;
-	double temperature;
-	double height;
+	float arr_accel_x, arr_accel_y, arr_accel_z, arr_gyro_x, arr_gyro_y, arr_gyro_z;
+	float Kalman_accel_x, Kalman_accel_y, Kalman_accel_z, Kalman_gyro_x, Kalman_gyro_y, Kalman_gyro_z;
+	float start_pressure = 0;
+	float start_temperature = 0;
+	float StartHeight = 0;
+	float pressure = 0;
+	float temperature = 0;
+	float height = 0;
+	float DeltaHeight = 0;
+	BMP280_CalibData calib_data;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -94,26 +103,46 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
+  MX_USART1_Init();
   /* USER CODE BEGIN 2 */
-  //MPU6050_Init();
-//  BME280_First_Scan(&start_pressure, &start_temperature);
+  ATCommand ("AT\r\n");
+  HAL_Delay (1000);
+
+  ATCommand ("AT+CWMODE=2\r\n");
+  HAL_Delay (1000);
+
+  ATCommand ("AT+CWSAP=\"FlyightControler\" , \"00000000\", 5,3\r\n");
+  HAL_Delay (1000);
+
+  WEBServer ();
+
+  MPU6050_Init();
+  BMP280_Init();
+  BMP280_ReadCalibrationData(&hi2c2, &calib_data);
+
+  start_temperature = BMP280_ReadTemperature(&hi2c2, &calib_data);
+  start_pressure = BMP280_ReadPressure(&hi2c2, &calib_data);
+
+  Setup (&start_pressure, &start_temperature, &StartHeight);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	/* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  MPU6050_Read_Accel();
-	  MPU6050_Read_Gyro();
+	MPU6050_Read_Accel(&arr_accel_x, &arr_accel_y, &arr_accel_z, &Kalman_accel_x, &Kalman_accel_y, &Kalman_accel_z);
+	MPU6050_Read_Gyro(&arr_gyro_x, &arr_gyro_y, &arr_gyro_z, &Kalman_gyro_x, &Kalman_gyro_y, &Kalman_gyro_z);
 
-//	  BME280_ReadPressure(&pressure);
-//	  BME280_ReadTemperature (&temperature);
-//	  BME280_Height (&start_pressure, &start_temperature, &pressure, &temperature, &height);
+	pressure = BMP280_ReadPressure(&hi2c2, &calib_data);
+	temperature = BMP280_ReadTemperature (&hi2c2, &calib_data);
 
-	  BMP280_Pressure (&pressure);
+	Delta_Height (&StartHeight, &height, &DeltaHeight, &pressure, &temperature);
+
+	ClientRequest();
+	//Transmit_Data (&arr_accel_x, &arr_accel_y, &arr_accel_z, &arr_gyro_x, &arr_gyro_y, &arr_gyro_z, &Kalman_accel_x, &Kalman_accel_y, &Kalman_accel_z, &Kalman_gyro_x, &Kalman_gyro_y, &Kalman_gyro_z, &StartHeight, &DeltaHeight);
   }
   /* USER CODE END 3 */
 }
@@ -228,6 +257,40 @@ static void MX_I2C2_Init(void)
 }
 
 /**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  husart1.Instance = USART1;
+  husart1.Init.BaudRate = 115200;
+  husart1.Init.WordLength = USART_WORDLENGTH_8B;
+  husart1.Init.StopBits = USART_STOPBITS_1;
+  husart1.Init.Parity = USART_PARITY_NONE;
+  husart1.Init.Mode = USART_MODE_TX_RX;
+  husart1.Init.CLKPolarity = USART_POLARITY_LOW;
+  husart1.Init.CLKPhase = USART_PHASE_1EDGE;
+  husart1.Init.CLKLastBit = USART_LASTBIT_DISABLE;
+  if (HAL_USART_Init(&husart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -239,6 +302,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

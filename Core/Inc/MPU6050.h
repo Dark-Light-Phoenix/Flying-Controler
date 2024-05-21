@@ -14,7 +14,7 @@
 #define R_GYRO 0.01
 
 void MPU6050_Init(void);
-void MPU6050_Read_Accel(void);
-void MPU6050_Read_Gyro(void);
+void MPU6050_Read_Accel(float *arr_accel_x, float *arr_accel_y, float *arr_accel_z, float *Kalman_accel_x, float *Kalman_accel_y, float *Kalman_accel_z);
+void MPU6050_Read_Gyro(float *arr_gyro_x, float *arr_gyro_y, float *arr_gyro_z, float *Kalman_gyro_x, float *Kalman_gyro_y, float *Kalman_gyro_z);
 
 #endif /* INC_MPU6050_H_ */

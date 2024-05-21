@@ -1,0 +1,5 @@
+../Core/Src/ESP01.c:9:6:USART_Transmit	16	static
+../Core/Src/ESP01.c:14:6:Transmit_Data	744	static
+../Core/Src/ESP01.c:21:6:ATCommand	16	static
+../Core/Src/ESP01.c:26:6:WEBServer	8	static
+../Core/Src/ESP01.c:37:6:ClientRequest	560	static

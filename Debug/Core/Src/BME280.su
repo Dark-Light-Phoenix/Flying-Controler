@@ -1,4 +1,0 @@
-../Core/Src/BME280.c:9:6:BME280_First_Scan	64	static
-../Core/Src/BME280.c:44:6:BME280_ReadPressure	40	static
-../Core/Src/BME280.c:58:6:BME280_ReadTemperature	56	static
-../Core/Src/BME280.c:79:6:BME280_Height	56	static

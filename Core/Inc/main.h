@@ -28,13 +28,15 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-#include "BME280.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "MPU6050.h"
 #include "Functions.h"
 #include "BMP280.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
+#include "stm32f4xx_it.h"
+#include "stdio.h"
+#include "ESP01.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
