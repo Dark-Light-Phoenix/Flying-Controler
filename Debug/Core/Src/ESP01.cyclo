@@ -1,5 +1,2 @@
 ../Core/Src/ESP01.c:9:6:USART_Transmit	1
 ../Core/Src/ESP01.c:14:6:Transmit_Data	1
-../Core/Src/ESP01.c:21:6:ATCommand	1
-../Core/Src/ESP01.c:26:6:WEBServer	1
-../Core/Src/ESP01.c:37:6:ClientRequest	4

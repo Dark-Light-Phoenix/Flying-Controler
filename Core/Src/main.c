@@ -44,7 +44,7 @@
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 
-USART_HandleTypeDef husart1;
+UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
@@ -55,7 +55,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_USART1_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -103,19 +103,8 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_I2C2_Init();
-  MX_USART1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  ATCommand ("AT\r\n");
-  HAL_Delay (1000);
-
-  ATCommand ("AT+CWMODE=2\r\n");
-  HAL_Delay (1000);
-
-  ATCommand ("AT+CWSAP=\"FlyightControler\" , \"00000000\", 5,3\r\n");
-  HAL_Delay (1000);
-
-  WEBServer ();
-
   MPU6050_Init();
   BMP280_Init();
   BMP280_ReadCalibrationData(&hi2c2, &calib_data);
@@ -141,8 +130,7 @@ int main(void)
 
 	Delta_Height (&StartHeight, &height, &DeltaHeight, &pressure, &temperature);
 
-	ClientRequest();
-	//Transmit_Data (&arr_accel_x, &arr_accel_y, &arr_accel_z, &arr_gyro_x, &arr_gyro_y, &arr_gyro_z, &Kalman_accel_x, &Kalman_accel_y, &Kalman_accel_z, &Kalman_gyro_x, &Kalman_gyro_y, &Kalman_gyro_z, &StartHeight, &DeltaHeight);
+	Transmit_Data (&arr_accel_x, &arr_accel_y, &arr_accel_z, &arr_gyro_x, &arr_gyro_y, &arr_gyro_z, &Kalman_accel_x, &Kalman_accel_y, &Kalman_accel_z, &Kalman_gyro_x, &Kalman_gyro_y, &Kalman_gyro_z, &start_pressure, &start_temperature, &StartHeight, &pressure, &temperature, &height, &DeltaHeight);
   }
   /* USER CODE END 3 */
 }
@@ -261,7 +249,7 @@ static void MX_I2C2_Init(void)
   * @param None
   * @retval None
   */
-static void MX_USART1_Init(void)
+static void MX_USART1_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART1_Init 0 */
@@ -271,16 +259,15 @@ static void MX_USART1_Init(void)
   /* USER CODE BEGIN USART1_Init 1 */
 
   /* USER CODE END USART1_Init 1 */
-  husart1.Instance = USART1;
-  husart1.Init.BaudRate = 115200;
-  husart1.Init.WordLength = USART_WORDLENGTH_8B;
-  husart1.Init.StopBits = USART_STOPBITS_1;
-  husart1.Init.Parity = USART_PARITY_NONE;
-  husart1.Init.Mode = USART_MODE_TX_RX;
-  husart1.Init.CLKPolarity = USART_POLARITY_LOW;
-  husart1.Init.CLKPhase = USART_PHASE_1EDGE;
-  husart1.Init.CLKLastBit = USART_LASTBIT_DISABLE;
-  if (HAL_USART_Init(&husart1) != HAL_OK)
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
   {
     Error_Handler();
   }

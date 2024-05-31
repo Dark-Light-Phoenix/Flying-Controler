@@ -6,7 +6,7 @@
 
 extern I2C_HandleTypeDef hi2c2;
 extern BMP280_CalibData calib_data;
-extern float pressure, temperature, height, start_pressure, start_temperature, start_height, delta;
+extern float pressure, temperature, height, start_pressure, start_temperature, StartHeight, DeltaHeight;
 
 void BMP280_ReadCalibrationData(I2C_HandleTypeDef *hi2c2, BMP280_CalibData *calib_data)
 {
@@ -31,8 +31,6 @@ void BMP280_ReadCalibrationData(I2C_HandleTypeDef *hi2c2, BMP280_CalibData *cali
         printf ("Error");
     }
 }
-
-extern BMP280_CalibData calib_data;
 
 void BMP280_Init(void)
 {
@@ -106,12 +104,12 @@ float BMP280_ReadPressure(I2C_HandleTypeDef *hi2c2, BMP280_CalibData *calib_data
 
 void Setup (float *start_temperature, float *start_pressure, float *StartHeight)
 {
-	  *StartHeight = (-(M * g) / (k * (*start_temperature + 273))) * log(*start_pressure/P0);
+	  *StartHeight = (-((k * (*start_temperature + 273)) / ((M * pow(10, -23)) * g)) * log (*start_pressure / P0));
 }
 
 void Delta_Height (float *StartHeight, float *height, float *DeltaHeight, float *pressure, float *temperature)
 {
 
-	*height = (-(M * g) / (k * (*temperature + 273))) * log(*pressure/P0);
+	*height = (-((k * (*temperature + 273)) / ((M * pow(10, -23)) * g)) * log (*pressure / P0));
 	*DeltaHeight = *StartHeight - *height;
 }

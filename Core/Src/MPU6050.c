@@ -3,8 +3,8 @@
 #include "stm32f4xx_hal.h"
 
 extern I2C_HandleTypeDef hi2c1;
-float Kalman_accel_x, Kalman_accel_y, Kalman_accel_z, Kalman_gyro_x, Kalman_gyro_y, Kalman_gyro_z;
-float arr_accel_x, arr_accel_y, arr_accel_z, arr_gyro_x, arr_gyro_y, arr_gyro_z;
+extern float arr_accel_x, arr_accel_y, arr_accel_z, arr_gyro_x, arr_gyro_y, arr_gyro_z;
+extern float Kalman_accel_x, Kalman_accel_y, Kalman_accel_z, Kalman_gyro_x, Kalman_gyro_y, Kalman_gyro_z;
 float Ax, Ay, Az, Gx, Gy, Gz;
 
 int16_t Accel_X_RAW = 0; // Initialization variables for 3 coordinates X, Y, Z of accelerometer

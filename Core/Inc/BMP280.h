@@ -11,7 +11,8 @@
 #define BMP280_CTRL_MEAS_REG 0xF4
 
 #define k 1.38
-#define M 0.04648
+//#define M 0.04648
+#define M 4.74
 #define g 9.81
 #define P0 1013
 
