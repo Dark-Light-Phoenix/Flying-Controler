@@ -155,25 +155,25 @@ void receiveData_()
     String data = Serial.readStringUntil('\n');
     Serial.println("Data received: " + data);
 
-    int xIndex = data.indexOf('X');
-    int yIndex = data.indexOf('Y');
-    int zIndex = data.indexOf('Z');
-    int gxIndex = data.indexOf("GX");
-    int gyIndex = data.indexOf("GY");
-    int gzIndex = data.indexOf("GZ");
-    int kaxIndex = data.indexOf("KAX");
-    int kayIndex = data.indexOf("KAY");
-    int kazIndex = data.indexOf("KAZ");
-    int kgxIndex = data.indexOf("KGX");
-    int kgyIndex = data.indexOf("KGY");
-    int kgzIndex = data.indexOf("KGZ");
-    int spIndex = data.indexOf("SP");
-    int stIndex = data.indexOf("ST");
-    int shIndex = data.indexOf("SH");
-    int pIndex = data.indexOf("P");
-    int tIndex = data.indexOf("T");
-    int hIndex = data.indexOf("H");
-    int dhIndex = data.indexOf("DH");
+    int xIndex = data.indexOf('a');
+    int yIndex = data.indexOf('b');
+    int zIndex = data.indexOf('c');
+    int gxIndex = data.indexOf("d");
+    int gyIndex = data.indexOf("e");
+    int gzIndex = data.indexOf("f");
+    int kaxIndex = data.indexOf("g");
+    int kayIndex = data.indexOf("h");
+    int kazIndex = data.indexOf("i");
+    int kgxIndex = data.indexOf("j");
+    int kgyIndex = data.indexOf("k");
+    int kgzIndex = data.indexOf("l");
+    int spIndex = data.indexOf("m");
+    int stIndex = data.indexOf("n");
+    int shIndex = data.indexOf("o");
+    int pIndex = data.indexOf("p");
+    int tIndex = data.indexOf("q");
+    int hIndex = data.indexOf("r");
+    int dhIndex = data.indexOf("s");
     reload++;
 
     if (xIndex != -1 && yIndex != -1) 
